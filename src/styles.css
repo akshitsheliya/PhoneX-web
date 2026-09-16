@@ -1,0 +1,621 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-lavender: var(--lavender);
+  --color-lavender-soft: var(--lavender-soft);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-peach: var(--peach);
+  --color-peach-soft: var(--peach-soft);
+  --color-mint: var(--mint);
+  --color-mint-soft: var(--mint-soft);
+  --color-rose: var(--rose);
+  --color-rose-soft: var(--rose-soft);
+  --color-nav: var(--nav);
+  --color-nav-foreground: var(--nav-foreground);
+
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mkt: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  --radius: 1.5rem;
+
+  --background: oklch(0.985 0.005 280);
+  --foreground: oklch(0.18 0.02 280);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 280);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 280);
+
+  --primary: oklch(0.62 0.16 295);
+  --primary-foreground: oklch(0.99 0 0);
+
+  --secondary: oklch(0.96 0.012 285);
+  --secondary-foreground: oklch(0.22 0.03 280);
+
+  --muted: oklch(0.96 0.008 280);
+  --muted-foreground: oklch(0.5 0.02 280);
+
+  --accent: oklch(0.93 0.04 295);
+  --accent-foreground: oklch(0.25 0.05 295);
+
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.92 0.01 280);
+  --input: oklch(0.94 0.01 280);
+  --ring: oklch(0.62 0.16 295);
+
+  /* Soft pastel palette */
+  --lavender: oklch(0.78 0.11 295);
+  --lavender-soft: oklch(0.95 0.035 295);
+  --sky: oklch(0.82 0.08 230);
+  --sky-soft: oklch(0.96 0.025 230);
+  --peach: oklch(0.85 0.08 50);
+  --peach-soft: oklch(0.96 0.03 50);
+  --mint: oklch(0.85 0.07 160);
+  --mint-soft: oklch(0.96 0.025 160);
+  --rose: oklch(0.82 0.08 15);
+  --rose-soft: oklch(0.96 0.025 15);
+
+  /* Floating nav (dark pill like reference) */
+  --nav: oklch(0.22 0.05 285);
+  --nav-foreground: oklch(0.98 0.01 280);
+
+  /* Gradients */
+  --gradient-ai: linear-gradient(135deg, oklch(0.78 0.12 295) 0%, oklch(0.82 0.1 250) 50%, oklch(0.86 0.09 20) 100%);
+  --gradient-orb: radial-gradient(circle at 30% 30%, oklch(0.92 0.08 295), oklch(0.78 0.13 285) 50%, oklch(0.65 0.18 280) 100%);
+  --gradient-lavender: linear-gradient(135deg, oklch(0.82 0.11 295), oklch(0.72 0.14 290));
+  --gradient-peach: linear-gradient(135deg, oklch(0.88 0.09 60), oklch(0.78 0.13 40));
+  --gradient-sky: linear-gradient(135deg, oklch(0.88 0.07 230), oklch(0.78 0.1 220));
+  --gradient-rose: linear-gradient(135deg, oklch(0.9 0.06 15), oklch(0.82 0.1 10));
+  --gradient-page: linear-gradient(180deg, oklch(0.985 0.005 280) 0%, oklch(0.97 0.015 295) 100%);
+
+  /* Shadows */
+  --shadow-soft: 0 4px 20px -8px oklch(0.4 0.1 285 / 0.15);
+  --shadow-card: 0 8px 30px -12px oklch(0.4 0.1 285 / 0.18);
+  --shadow-orb: 0 0 80px -10px oklch(0.7 0.18 295 / 0.6), 0 0 120px -20px oklch(0.7 0.15 250 / 0.4);
+  --shadow-nav: 0 12px 40px -10px oklch(0.2 0.05 285 / 0.35);
+
+  /* Hero phone preview readability colors */
+  --hero-phone-ink: #191e3b;
+  --hero-phone-secondary: #4b5563;
+  --hero-phone-muted: #6b7280;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    background: var(--gradient-page);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-kerning: auto;
+    font-optical-sizing: auto;
+  }
+  body {
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  h1 {
+    font-weight: 700;
+  }
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+  p {
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-ai { background-image: var(--gradient-ai); }
+  .bg-gradient-orb { background-image: var(--gradient-orb); }
+  .bg-gradient-lavender { background-image: var(--gradient-lavender); }
+  .bg-gradient-peach { background-image: var(--gradient-peach); }
+  .bg-gradient-sky { background-image: var(--gradient-sky); }
+  .bg-gradient-rose { background-image: var(--gradient-rose); }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-orb { box-shadow: var(--shadow-orb); }
+  .shadow-nav { box-shadow: var(--shadow-nav); }
+  .glass {
+    background: color-mix(in oklab, white 75%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+}
+
+/* Globally hide scrollbars while keeping scroll behavior */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes shimmer-wave {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-breathe { animation: breathe 3.5s ease-in-out infinite; }
+.animate-pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
+.animate-float-slow { animation: float-slow 4s ease-in-out infinite; }
+.animate-shimmer-wave { animation: shimmer-wave 18s linear infinite; }
+.animate-fade-up { animation: fade-up 0.5s ease-out both; }
+
+/* Readability trial scoped exclusively to the Home screen in the first website section. */
+.hero-phone-preview .hero-phone-profile-name {
+  color: var(--hero-phone-ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+.hero-phone-preview .hero-phone-status {
+  font-size: 11px;
+  font-weight: 600;
+}
+.hero-phone-preview .hero-phone-premium {
+  color: var(--hero-phone-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.hero-phone-preview .hero-phone-ai-status {
+  background: color-mix(in oklab, white 29%, transparent);
+  font-size: 12px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px oklch(0.25 0.06 285 / 0.3);
+}
+.hero-phone-preview .hero-phone-ai-heading {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-shadow: 0 1px 3px oklch(0.25 0.06 285 / 0.28);
+}
+.hero-phone-preview .hero-phone-quick-action {
+  background: color-mix(in oklab, white 24%, transparent);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-shadow: 0 1px 2px oklch(0.25 0.06 285 / 0.28);
+}
+.hero-phone-preview .hero-phone-primary-action,
+.hero-phone-preview .hero-phone-secondary-action {
+  font-size: 13px;
+  font-weight: 700;
+}
+.hero-phone-preview .hero-phone-secondary-action {
+  background: color-mix(in oklab, white 27%, transparent);
+  text-shadow: 0 1px 2px oklch(0.25 0.06 285 / 0.28);
+}
+.hero-phone-preview .hero-phone-summary-heading {
+  color: var(--hero-phone-ink);
+  font-size: 17px;
+  font-weight: 700;
+}
+.hero-phone-preview .hero-phone-productivity {
+  color: var(--hero-phone-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+.hero-phone-preview .hero-phone-see-all {
+  font-size: 13px;
+  font-weight: 600;
+}
+.hero-phone-preview .hero-phone-card-label {
+  color: var(--hero-phone-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+.hero-phone-preview .hero-phone-card-value {
+  color: var(--hero-phone-ink);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.hero-phone-preview .hero-phone-card-sub {
+  color: var(--hero-phone-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── PhoneX Web (desktop shell) ───────────────────────────── */
+.phonex-shell-bg {
+  background: linear-gradient(135deg, oklch(0.94 0.015 285), oklch(0.92 0.03 295));
+}
+
+@media (min-width: 1024px) {
+  .phonex-shell-bg { background: var(--gradient-page); }
+
+  /* Let page bodies breathe on desktop without editing every route */
+  .desktop-main { min-height: 100%; display: flex; flex-direction: column; }
+  .desktop-main > * { flex: 1 1 auto; min-height: 0; }
+  .desktop-main .pb-40 { padding-bottom: 1.5rem; }
+  .desktop-main .pb-36 { padding-bottom: 1.5rem; }
+  .desktop-main .pb-32 { padding-bottom: 1.5rem; }
+}
+
+/* ── PhoneX public website (marketing layer) ──────────────── */
+.mkt {
+  font-family: var(--font-mkt);
+  font-weight: 400;
+  --mkt-gutter: 1.5rem;
+  background:
+    radial-gradient(1100px 520px at 78% -12%, oklch(0.95 0.035 295 / 0.75), transparent 65%),
+    radial-gradient(900px 460px at -5% 4%, oklch(0.96 0.025 230 / 0.7), transparent 60%),
+    var(--background);
+}
+.mkt :where(h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, span, li) {
+  font-family: inherit;
+}
+.mkt :where(button, [role="button"]) {
+  font-weight: 600;
+}
+
+/* Typography scale */
+.mkt .mkt-h1 {
+  font-size: clamp(2.25rem, 1.5rem + 2.8vw, 3.7rem);
+  line-height: 1.08;
+  letter-spacing: normal;
+  font-weight: 700;
+}
+.mkt .mkt-h2 {
+  font-size: clamp(1.75rem, 1.2rem + 1.9vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: normal;
+  font-weight: 600;
+}
+.mkt .mkt-h2-strong {
+  font-weight: 700;
+}
+.mkt .mkt-h3 {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  line-height: 1.25;
+  letter-spacing: normal;
+  font-weight: 600;
+}
+.mkt .mkt-lead {
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.175rem);
+  line-height: 1.55;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+.mkt .mkt-body {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+/* Section backgrounds — used sparingly */
+.mkt .mkt-tint {
+  background: linear-gradient(180deg, transparent, oklch(0.975 0.012 285) 22%, oklch(0.975 0.012 285) 78%, transparent);
+}
+.mkt .mkt-soft {
+  background: linear-gradient(135deg, oklch(0.97 0.022 295), oklch(0.975 0.018 230));
+}
+.mkt .mkt-device-glow {
+  background: radial-gradient(circle at 50% 40%, oklch(0.82 0.11 295 / 0.35), transparent 68%);
+}
+.mkt .mkt-hero-aura {
+  background:
+    radial-gradient(closest-side at 62% 30%, oklch(0.86 0.09 295 / 0.42), transparent 70%),
+    radial-gradient(closest-side at 28% 62%, oklch(0.88 0.07 230 / 0.38), transparent 72%),
+    radial-gradient(closest-side at 70% 82%, oklch(0.9 0.06 15 / 0.28), transparent 72%);
+  animation: mkt-aura 18s ease-in-out infinite alternate;
+}
+@keyframes mkt-aura {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.05) translate3d(0, -1.5%, 0); }
+}
+
+
+/* Reveal motion */
+@keyframes mkt-reveal {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.mkt .mkt-reveal { animation: mkt-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.mkt .mkt-reveal-2 { animation-delay: 0.1s; }
+.mkt .mkt-reveal-3 { animation-delay: 0.2s; }
+
+/* Scroll-into-view reveal (paired with useReveal) */
+.mkt .mkt-inview {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mkt .mkt-inview.is-in { opacity: 1; transform: none; }
+
+/* Benefit accents — one soft tint per benefit, applied sparingly */
+.mkt .mkt-accent-lavender { --mkt-accent: oklch(0.58 0.14 295); --mkt-accent-soft: oklch(0.93 0.035 295); }
+.mkt .mkt-accent-peach { --mkt-accent: oklch(0.66 0.12 45); --mkt-accent-soft: oklch(0.94 0.03 45); }
+.mkt .mkt-accent-mint { --mkt-accent: oklch(0.62 0.1 175); --mkt-accent-soft: oklch(0.94 0.028 175); }
+
+.mkt .mkt-benefit { box-shadow: 0 1px 0 oklch(1 0 0 / 0.5) inset; transition: box-shadow 0.3s ease; }
+.mkt .mkt-benefit:hover { box-shadow: 0 20px 50px -24px oklch(0.4 0.06 285 / 0.22); }
+.mkt .mkt-benefit-accent {
+  background: linear-gradient(90deg, transparent, var(--mkt-accent), transparent);
+  opacity: 0.55;
+}
+.mkt .mkt-benefit-index { color: var(--mkt-accent-soft); }
+.mkt .mkt-benefit-chip {
+  background: var(--mkt-accent-soft);
+  color: var(--mkt-accent);
+}
+.mkt .mkt-benefit-glow {
+  background: radial-gradient(closest-side, var(--mkt-accent-soft), transparent 72%);
+  opacity: 0.8;
+}
+.mkt .mkt-benefit-fade {
+  background: linear-gradient(180deg, transparent, var(--background) 85%);
+}
+
+
+/* ── A day with PhoneX ─────────────────────────────────────── */
+.mkt .mkt-day {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    oklch(0.985 0.014 75) 12%,
+    oklch(0.982 0.014 250) 50%,
+    oklch(0.978 0.018 295) 82%,
+    transparent
+  );
+}
+.mkt .mkt-day-rail {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    oklch(0.85 0.03 285 / 0.55) 8%,
+    oklch(0.85 0.03 285 / 0.55) 92%,
+    transparent
+  );
+}
+.mkt .mkt-stage-morning { --stage: oklch(0.7 0.11 65); --stage-soft: oklch(0.95 0.035 65); }
+.mkt .mkt-stage-afternoon { --stage: oklch(0.6 0.12 265); --stage-soft: oklch(0.95 0.03 265); }
+.mkt .mkt-stage-evening { --stage: oklch(0.56 0.13 300); --stage-soft: oklch(0.95 0.032 300); }
+
+.mkt .mkt-stage-aura {
+  background: radial-gradient(closest-side at 50% 45%, var(--stage-soft), transparent 72%);
+  opacity: 0.75;
+}
+.mkt .mkt-stage-node {
+  background: var(--stage);
+  box-shadow: 0 0 0 6px var(--stage-soft);
+}
+.mkt .mkt-stage-label {
+  background: var(--stage-soft);
+  color: var(--stage);
+}
+.mkt .mkt-stage-quote { color: var(--stage); }
+.mkt .mkt-stage-moment {
+  border-color: oklch(0.9 0.02 285 / 0.9);
+  background: oklch(1 0 0 / 0.72);
+  backdrop-filter: blur(8px);
+}
+.mkt .mkt-stage-glow {
+  background: radial-gradient(circle at 50% 40%, var(--stage-soft), transparent 70%);
+}
+.mkt .mkt-stage-caption {
+  border-color: oklch(0.9 0.02 285 / 0.9);
+  background: oklch(1 0 0 / 0.86);
+  color: var(--stage);
+}
+.mkt .mkt-stage .mkt-stage-title { color: var(--foreground); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt *,
+  .mkt *::before,
+  .mkt *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ── See PhoneX in action ──────────────────────────────────── */
+.mkt .mkt-act { background: linear-gradient(180deg, transparent, oklch(0.983 0.012 285) 30%, transparent); }
+.mkt .mkt-act-plan { --act: oklch(0.58 0.13 275); --act-soft: oklch(0.95 0.03 275); }
+.mkt .mkt-act-remember { --act: oklch(0.66 0.12 40); --act-soft: oklch(0.95 0.032 40); }
+.mkt .mkt-act-talk { --act: oklch(0.57 0.14 300); --act-soft: oklch(0.95 0.032 300); }
+.mkt .mkt-act-understand { --act: oklch(0.6 0.1 180); --act-soft: oklch(0.95 0.03 180); }
+
+.mkt .mkt-act-tab.is-active {
+  border-color: color-mix(in oklab, var(--act) 30%, transparent);
+  background: var(--act-soft);
+  color: var(--act);
+}
+.mkt .mkt-act-quote { color: var(--act); }
+.mkt .mkt-act-moment {
+  border-color: oklch(0.9 0.02 285 / 0.9);
+  background: oklch(1 0 0 / 0.72);
+  backdrop-filter: blur(8px);
+}
+.mkt .mkt-act-glow { background: radial-gradient(circle at 50% 40%, var(--act-soft), transparent 70%); }
+.mkt .mkt-act-chip {
+  border-color: oklch(0.9 0.02 285 / 0.9);
+  background: oklch(1 0 0 / 0.86);
+  color: var(--act);
+}
+@keyframes mkt-act-swap {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.mkt .mkt-act-swap { animation: mkt-act-swap 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ── Feature storytelling (Step 6) ─────────────────────────── */
+.mkt .mkt-story-lavender { --story: oklch(0.58 0.14 295); --story-soft: oklch(0.95 0.032 295); }
+.mkt .mkt-story-blue { --story: oklch(0.58 0.12 260); --story-soft: oklch(0.95 0.028 260); }
+.mkt .mkt-story-peach { --story: oklch(0.66 0.12 45); --story-soft: oklch(0.95 0.03 45); }
+.mkt .mkt-story-mint { --story: oklch(0.6 0.1 175); --story-soft: oklch(0.95 0.026 175); }
+.mkt .mkt-story-purple { --story: oklch(0.55 0.15 305); --story-soft: oklch(0.95 0.034 305); }
+
+.mkt .mkt-story-tint-lavender { background: linear-gradient(180deg, transparent, oklch(0.984 0.012 295) 26%, oklch(0.984 0.012 295) 74%, transparent); }
+.mkt .mkt-story-tint-blue { background: linear-gradient(180deg, transparent, oklch(0.984 0.012 255) 26%, oklch(0.984 0.012 255) 74%, transparent); }
+.mkt .mkt-story-tint-purple { background: linear-gradient(180deg, transparent, oklch(0.982 0.016 305) 26%, oklch(0.982 0.016 305) 74%, transparent); }
+
+.mkt .mkt-story-index { color: color-mix(in oklab, var(--story) 65%, transparent); }
+.mkt .mkt-story-kicker { color: var(--story); }
+.mkt .mkt-story-from { color: var(--story); }
+.mkt .mkt-story-moment {
+  border-color: oklch(0.9 0.02 285 / 0.9);
+  background: oklch(1 0 0 / 0.72);
+  backdrop-filter: blur(8px);
+}
+.mkt .mkt-story-glow { background: radial-gradient(circle at 50% 42%, var(--story-soft), transparent 70%); }
+
+/* ── Why PhoneX (Step 7) ───────────────────────────────────── */
+.mkt .mkt-why { background: linear-gradient(180deg, transparent, oklch(0.984 0.012 290) 25%, oklch(0.984 0.012 290) 75%, transparent); }
+.mkt .mkt-why-blue { --why: oklch(0.58 0.12 260); --why-soft: oklch(0.96 0.026 260); }
+.mkt .mkt-why-peach { --why: oklch(0.66 0.12 45); --why-soft: oklch(0.96 0.028 45); }
+.mkt .mkt-why-lavender { --why: oklch(0.57 0.14 297); --why-soft: oklch(0.96 0.03 297); }
+.mkt .mkt-why-mint { --why: oklch(0.6 0.1 175); --why-soft: oklch(0.96 0.024 175); }
+
+.mkt .mkt-why-chip {
+  border-color: color-mix(in oklab, var(--why) 22%, transparent);
+  background: oklch(1 0 0 / 0.85);
+  color: var(--foreground);
+  box-shadow: 0 10px 30px -18px oklch(0.4 0.06 285 / 0.35);
+}
+.mkt .mkt-why-chip-icon { color: var(--why); }
+.mkt .mkt-why-center { color: oklch(0.57 0.14 297); }
+.mkt .mkt-why-index { color: oklch(0.72 0.08 297); }
+.mkt .mkt-why-rail { background: linear-gradient(180deg, oklch(0.85 0.03 290 / 0.7), transparent); }
+.mkt .mkt-why-glow { background: radial-gradient(circle at 50% 45%, oklch(0.95 0.03 297), transparent 70%); }
+
+.mkt .mkt-why-line {
+  stroke: oklch(0.82 0.035 292);
+  stroke-width: 1.25;
+  stroke-dasharray: 4 6;
+  opacity: 0;
+}
+.mkt .mkt-why-line.is-in { animation: mkt-why-line 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes mkt-why-line {
+  from { opacity: 0; stroke-dashoffset: 40; }
+  to { opacity: 0.9; stroke-dashoffset: 0; }
+}
+
+.mkt .mkt-why-compare {
+  border-color: oklch(0.91 0.015 290);
+  background: oklch(1 0 0 / 0.7);
+}
+.mkt .mkt-why-compare-strong {
+  border-color: oklch(0.86 0.04 297);
+  background: oklch(0.985 0.016 297);
+}
+
+/* ── Privacy / trust + final CTA (Step 8) ──────────────────── */
+.mkt .mkt-trust { background: linear-gradient(180deg, transparent, oklch(0.986 0.008 260) 28%, oklch(0.986 0.008 260) 72%, transparent); }
+.mkt .mkt-trust-glow { background: radial-gradient(circle at 50% 42%, oklch(0.955 0.026 265), transparent 70%); }
+.mkt .mkt-trust-index { color: oklch(0.7 0.09 297); }
+.mkt .mkt-trust-rule { background: linear-gradient(90deg, oklch(0.82 0.05 297), transparent); }
+
+.mkt .mkt-cta { background: linear-gradient(180deg, oklch(0.985 0.014 292) 0%, oklch(0.982 0.018 275) 45%, oklch(0.986 0.014 320) 100%); }
+.mkt .mkt-cta-aura {
+  background:
+    radial-gradient(45% 40% at 22% 18%, oklch(0.94 0.035 297 / 0.75), transparent 70%),
+    radial-gradient(42% 38% at 80% 26%, oklch(0.94 0.03 250 / 0.7), transparent 70%);
+  animation: mkt-cta-aura 26s ease-in-out infinite alternate;
+}
+@keyframes mkt-cta-aura {
+  from { opacity: 0.75; transform: translateY(-1%); }
+  to { opacity: 1; transform: translateY(1.5%); }
+}
+.mkt .mkt-cta-glow { background: radial-gradient(circle at 50% 40%, oklch(0.94 0.04 300), transparent 72%); }
+.mkt .mkt-cta-fade { background: linear-gradient(180deg, transparent, oklch(0.985 0.014 300)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt .mkt-cta-aura { animation: none; }
+}
+
+/* Anchor scrolling clears the sticky marketing header */
+.mkt section[id] { scroll-margin-top: 96px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.mkt) { scroll-behavior: smooth; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt .mkt-hero-aura { animation: none; }
+  .mkt .mkt-reveal,
+  .mkt .mkt-inview { animation: none; transition: none; opacity: 1; transform: none; }
+}

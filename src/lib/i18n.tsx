@@ -1,0 +1,391 @@
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+
+export type Lang =
+  | "English" | "Hindi" | "Gujarati" | "Telugu" | "Kannada" | "Arabic" | "Spanish" | "French" | "Chinese" | "Japanese" | "German";
+
+const DICT: Record<string, Partial<Record<Lang, string>>> = {
+  // Nav
+  "Home": { Hindi: "होम", Arabic: "الرئيسية", Spanish: "Inicio", French: "Accueil", Chinese: "首页", Japanese: "ホーム", German: "Startseite" },
+  "Life": { Hindi: "जीवन", Arabic: "الحياة", Spanish: "Vida", French: "Vie", Chinese: "生活", Japanese: "ライフ", German: "Leben" },
+  "Memory": { Hindi: "यादें", Arabic: "الذكريات", Spanish: "Memoria", French: "Mémoire", Chinese: "记忆", Japanese: "メモリー", German: "Erinnerung" },
+  "Profile": { Hindi: "प्रोफ़ाइल", Arabic: "الملف", Spanish: "Perfil", French: "Profil", Chinese: "个人", Japanese: "プロフィール", German: "Profil" },
+  "Talk to PhoneX": { Hindi: "फ़ोनएक्स से बात करें", Arabic: "تحدث مع PhoneX", Spanish: "Habla con PhoneX", French: "Parler à PhoneX", Chinese: "与 PhoneX 对话", Japanese: "PhoneXと話す", German: "Mit PhoneX sprechen" },
+
+  // Sidebar
+  "Your AI life companion": { Hindi: "आपका एआई जीवन साथी", Arabic: "رفيقك الحياتي بالذكاء", Spanish: "Tu compañero de vida IA", French: "Votre compagnon de vie IA", Chinese: "您的AI生活伴侣", Japanese: "あなたのAIライフコンパニオン", German: "Dein KI-Lebensbegleiter" },
+  "About PhoneX": { Hindi: "फ़ोनएक्स के बारे में", Arabic: "حول PhoneX", Spanish: "Acerca de PhoneX", French: "À propos de PhoneX", Chinese: "关于 PhoneX", Japanese: "PhoneXについて", German: "Über PhoneX" },
+  "Subscription Details": { Hindi: "सदस्यता विवरण", Arabic: "تفاصيل الاشتراك", Spanish: "Detalles de suscripción", French: "Détails de l'abonnement", Chinese: "订阅详情", Japanese: "サブスクリプション詳細", German: "Abo-Details" },
+  "PhoneX Personality": { Hindi: "फ़ोनएक्स व्यक्तित्व", Arabic: "شخصية PhoneX", Spanish: "Personalidad de PhoneX", French: "Personnalité PhoneX", Chinese: "PhoneX 性格", Japanese: "PhoneXパーソナリティ", German: "PhoneX Persönlichkeit" },
+  "PhoneX learns from you privately. Conversations stay encrypted on-device.": { Hindi: "फ़ोनएक्स निजी तौर पर आपसे सीखता है। बातचीत डिवाइस पर एन्क्रिप्टेड रहती है।", Arabic: "يتعلم PhoneX منك بخصوصية. تبقى المحادثات مشفرة على الجهاز.", Spanish: "PhoneX aprende de ti en privado. Las conversaciones permanecen cifradas.", French: "PhoneX apprend de vous en privé. Les conversations restent chiffrées.", Chinese: "PhoneX 私密地向您学习。对话在设备上加密保存。", Japanese: "PhoneXは非公開で学びます。会話は端末で暗号化されます。", German: "PhoneX lernt privat. Gespräche bleiben verschlüsselt." },
+
+  // Settings
+  "Settings": { Hindi: "सेटिंग्स", Arabic: "الإعدادات", Spanish: "Ajustes", French: "Paramètres", Chinese: "设置", Japanese: "設定", German: "Einstellungen" },
+  "Manage your PhoneX experience": { Hindi: "अपने फ़ोनएक्स अनुभव को प्रबंधित करें", Arabic: "أدر تجربة PhoneX", Spanish: "Gestiona tu experiencia PhoneX", French: "Gérez votre expérience PhoneX", Chinese: "管理您的 PhoneX 体验", Japanese: "PhoneX体験を管理", German: "Verwalte dein PhoneX-Erlebnis" },
+  "Permissions": { Hindi: "अनुमतियाँ", Arabic: "الأذونات", Spanish: "Permisos", French: "Autorisations", Chinese: "权限", Japanese: "権限", German: "Berechtigungen" },
+  "Access & privacy": { Hindi: "पहुँच और गोपनीयता", Arabic: "الوصول والخصوصية", Spanish: "Acceso y privacidad", French: "Accès et confidentialité", Chinese: "访问与隐私", Japanese: "アクセスとプライバシー", German: "Zugriff & Datenschutz" },
+  "Language": { Hindi: "भाषा", Arabic: "اللغة", Spanish: "Idioma", French: "Langue", Chinese: "语言", Japanese: "言語", German: "Sprache" },
+  "App & voice language": { Hindi: "ऐप और वॉइस भाषा", Arabic: "لغة التطبيق والصوت", Spanish: "Idioma de app y voz", French: "Langue app et voix", Chinese: "应用与语音语言", Japanese: "アプリと音声の言語", German: "App- & Sprachsprache" },
+  "Logout": { Hindi: "लॉग आउट", Arabic: "تسجيل الخروج", Spanish: "Cerrar sesión", French: "Déconnexion", Chinese: "退出登录", Japanese: "ログアウト", German: "Abmelden" },
+  "Choose how PhoneX speaks with you": { Hindi: "चुनें कि फ़ोनएक्स आपसे कैसे बात करे", Arabic: "اختر كيف يتحدث PhoneX معك", Spanish: "Elige cómo te habla PhoneX", French: "Choisissez comment PhoneX vous parle", Chinese: "选择 PhoneX 如何与您交谈", Japanese: "PhoneXの話し方を選択", German: "Wähle, wie PhoneX mit dir spricht" },
+
+  // Home
+  "active": { Hindi: "सक्रिय", Arabic: "نشط", Spanish: "activo", French: "actif", Chinese: "在线", Japanese: "アクティブ", German: "aktiv" },
+  "PhoneX Premium": { Hindi: "फ़ोनएक्स प्रीमियम", Arabic: "PhoneX بريميوم", Spanish: "PhoneX Premium", French: "PhoneX Premium", Chinese: "PhoneX 尊享", Japanese: "PhoneXプレミアム", German: "PhoneX Premium" },
+  "Your AI companion is active": { Hindi: "आपका एआई साथी सक्रिय है", Arabic: "رفيقك الذكي نشط", Spanish: "Tu compañero IA está activo", French: "Votre compagnon IA est actif", Chinese: "您的 AI 伴侣已激活", Japanese: "AIコンパニオンが起動中", German: "Dein KI-Begleiter ist aktiv" },
+  "How can I help you?": { Hindi: "मैं आपकी कैसे मदद कर सकता हूँ?", Arabic: "كيف يمكنني مساعدتك؟", Spanish: "¿Cómo puedo ayudarte?", French: "Comment puis-je vous aider ?", Chinese: "我能怎么帮您？", Japanese: "何をお手伝いしましょう？", German: "Wie kann ich helfen?" },
+  "Plan my day": { Hindi: "मेरा दिन योजनाबद्ध करें", Arabic: "خطط ليومي", Spanish: "Planea mi día", French: "Planifier ma journée", Chinese: "规划我的一天", Japanese: "一日を計画", German: "Meinen Tag planen" },
+  "Remember something": { Hindi: "कुछ याद रखें", Arabic: "تذكر شيئًا", Spanish: "Recuerda algo", French: "Se souvenir", Chinese: "记住某事", Japanese: "何かを記憶", German: "Etwas merken" },
+  "Track my health": { Hindi: "मेरा स्वास्थ्य ट्रैक करें", Arabic: "تتبع صحتي", Spanish: "Rastrea mi salud", French: "Suivre ma santé", Chinese: "追踪健康", Japanese: "健康を記録", German: "Gesundheit verfolgen" },
+  "Solve a problem": { Hindi: "समस्या हल करें", Arabic: "حل مشكلة", Spanish: "Resuelve un problema", French: "Résoudre un problème", Chinese: "解决问题", Japanese: "問題を解決", German: "Problem lösen" },
+  "Talk": { Hindi: "बात करें", Arabic: "تحدث", Spanish: "Hablar", French: "Parler", Chinese: "对话", Japanese: "話す", German: "Sprechen" },
+  "Chat": { Hindi: "चैट", Arabic: "محادثة", Spanish: "Chat", French: "Chat", Chinese: "聊天", Japanese: "チャット", German: "Chat" },
+  "Today's life summary": { Hindi: "आज का जीवन सारांश", Arabic: "ملخص اليوم", Spanish: "Resumen de hoy", French: "Résumé du jour", Chinese: "今日生活摘要", Japanese: "今日のライフサマリー", German: "Tageszusammenfassung" },
+  "80% productive": { Hindi: "80% उत्पादक", Arabic: "80% إنتاجية", Spanish: "80% productivo", French: "80% productif", Chinese: "80% 高效", Japanese: "80% 生産的", German: "80% produktiv" },
+  "See all": { Hindi: "सभी देखें", Arabic: "عرض الكل", Spanish: "Ver todo", French: "Tout voir", Chinese: "查看全部", Japanese: "すべて表示", German: "Alle ansehen" },
+  "Tasks": { Hindi: "कार्य", Arabic: "المهام", Spanish: "Tareas", French: "Tâches", Chinese: "任务", Japanese: "タスク", German: "Aufgaben" },
+  "completed": { Hindi: "पूर्ण", Arabic: "مكتمل", Spanish: "completadas", French: "terminées", Chinese: "已完成", Japanese: "完了", German: "erledigt" },
+  "Fitness": { Hindi: "फिटनेस", Arabic: "اللياقة", Spanish: "Fitness", French: "Fitness", Chinese: "健身", Japanese: "フィットネス", German: "Fitness" },
+  "walked today": { Hindi: "आज चले", Arabic: "مشيت اليوم", Spanish: "hoy caminado", French: "marché aujourd'hui", Chinese: "今日步行", Japanese: "今日の歩行", German: "heute gelaufen" },
+  "Mood": { Hindi: "मनोदशा", Arabic: "المزاج", Spanish: "Ánimo", French: "Humeur", Chinese: "心情", Japanese: "気分", German: "Stimmung" },
+  "Calm": { Hindi: "शांत", Arabic: "هادئ", Spanish: "Tranquilo", French: "Calme", Chinese: "平静", Japanese: "穏やか", German: "Ruhig" },
+  "balanced": { Hindi: "संतुलित", Arabic: "متوازن", Spanish: "equilibrado", French: "équilibré", Chinese: "平衡", Japanese: "バランス", German: "ausgeglichen" },
+  "Memories": { Hindi: "यादें", Arabic: "الذكريات", Spanish: "Recuerdos", French: "Souvenirs", Chinese: "回忆", Japanese: "思い出", German: "Erinnerungen" },
+  "3 saved": { Hindi: "3 सहेजे", Arabic: "3 محفوظة", Spanish: "3 guardados", French: "3 enregistrés", Chinese: "已保存 3 条", Japanese: "3件保存", German: "3 gespeichert" },
+  "this week": { Hindi: "इस सप्ताह", Arabic: "هذا الأسبوع", Spanish: "esta semana", French: "cette semaine", Chinese: "本周", Japanese: "今週", German: "diese Woche" },
+  "Next up · 11:30": { Hindi: "अगला · 11:30", Arabic: "التالي · 11:30", Spanish: "Siguiente · 11:30", French: "Suivant · 11:30", Chinese: "下一项 · 11:30", Japanese: "次 · 11:30", German: "Als Nächstes · 11:30" },
+  "Open": { Hindi: "खोलें", Arabic: "افتح", Spanish: "Abrir", French: "Ouvrir", Chinese: "打开", Japanese: "開く", German: "Öffnen" },
+  "Design review with Sarah & the product team": { Hindi: "सारा और प्रोडक्ट टीम के साथ डिज़ाइन समीक्षा", Arabic: "مراجعة تصميم مع سارة وفريق المنتج", Spanish: "Revisión de diseño con Sarah y el equipo", French: "Revue design avec Sarah et l'équipe produit", Chinese: "与 Sarah 及产品团队的设计评审", Japanese: "サラと製品チームとのデザインレビュー", German: "Design-Review mit Sarah & Produktteam" },
+  "AI analyzing your life": { Hindi: "एआई आपके जीवन का विश्लेषण कर रहा है", Arabic: "الذكاء يحلل حياتك", Spanish: "IA analizando tu vida", French: "L'IA analyse votre vie", Chinese: "AI 正在分析您的生活", Japanese: "AIがあなたの生活を分析中", German: "KI analysiert dein Leben" },
+  "Life Insights": { Hindi: "जीवन अंतर्दृष्टि", Arabic: "رؤى الحياة", Spanish: "Perspectivas de vida", French: "Aperçus de vie", Chinese: "生活洞察", Japanese: "ライフインサイト", German: "Lebens-Insights" },
+  "Patterns, health, productivity & goals": { Hindi: "पैटर्न, स्वास्थ्य, उत्पादकता और लक्ष्य", Arabic: "الأنماط، الصحة، الإنتاجية والأهداف", Spanish: "Patrones, salud, productividad y metas", French: "Modèles, santé, productivité et objectifs", Chinese: "模式、健康、效率与目标", Japanese: "パターン、健康、生産性、目標", German: "Muster, Gesundheit, Produktivität & Ziele" },
+
+  // Life
+  "Friday, January 17": { Hindi: "शुक्रवार, 17 जनवरी", Arabic: "الجمعة، 17 يناير", Spanish: "Viernes, 17 de enero", French: "Vendredi 17 janvier", Chinese: "1月17日 星期五", Japanese: "1月17日 金曜日", German: "Freitag, 17. Januar" },
+  "Daily timeline": { Hindi: "दैनिक टाइमलाइन", Arabic: "الجدول اليومي", Spanish: "Cronología diaria", French: "Chronologie du jour", Chinese: "每日时间线", Japanese: "デイリータイムライン", German: "Tages-Zeitleiste" },
+  "Goals": { Hindi: "लक्ष्य", Arabic: "الأهداف", Spanish: "Metas", French: "Objectifs", Chinese: "目标", Japanese: "目標", German: "Ziele" },
+  "Smart suggestions": { Hindi: "स्मार्ट सुझाव", Arabic: "اقتراحات ذكية", Spanish: "Sugerencias", French: "Suggestions", Chinese: "智能建议", Japanese: "スマート提案", German: "Vorschläge" },
+  "Complete your workout today": { Hindi: "आज अपना वर्कआउट पूरा करें", Arabic: "أكمل تمرينك اليوم", Spanish: "Completa tu ejercicio hoy", French: "Terminez votre séance aujourd'hui", Chinese: "今天完成锻炼", Japanese: "今日のワークアウトを完了", German: "Training heute abschließen" },
+  "Review your weekly goals": { Hindi: "अपने साप्ताहिक लक्ष्य देखें", Arabic: "راجع أهدافك الأسبوعية", Spanish: "Revisa tus metas semanales", French: "Revoir vos objectifs de la semaine", Chinese: "回顾本周目标", Japanese: "週の目標を確認", German: "Wochenziele prüfen" },
+  "Schedule family time on Sunday": { Hindi: "रविवार को परिवार का समय तय करें", Arabic: "خصص وقتًا للعائلة الأحد", Spanish: "Programa tiempo con la familia el domingo", French: "Planifier du temps en famille dimanche", Chinese: "周日安排家庭时间", Japanese: "日曜に家族の時間を計画", German: "Familienzeit am Sonntag planen" },
+  "Career": { Hindi: "करियर", Arabic: "المهنة", Spanish: "Carrera", French: "Carrière", Chinese: "职业", Japanese: "キャリア", German: "Karriere" },
+  "Learning": { Hindi: "सीखना", Arabic: "التعلم", Spanish: "Aprendizaje", French: "Apprentissage", Chinese: "学习", Japanese: "学習", German: "Lernen" },
+  "Personal": { Hindi: "व्यक्तिगत", Arabic: "شخصي", Spanish: "Personal", French: "Personnel", Chinese: "个人", Japanese: "パーソナル", German: "Persönlich" },
+  "Done": { Hindi: "पूर्ण", Arabic: "منجز", Spanish: "Hecho", French: "Fait", Chinese: "已完成", Japanese: "完了", German: "Fertig" },
+  "Soon": { Hindi: "जल्द", Arabic: "قريبًا", Spanish: "Pronto", French: "Bientôt", Chinese: "即将", Japanese: "まもなく", German: "Bald" },
+  "Upcoming": { Hindi: "आगामी", Arabic: "قادم", Spanish: "Próximo", French: "À venir", Chinese: "即将到来", Japanese: "予定", German: "Bevorstehend" },
+  "Auto": { Hindi: "स्वतः", Arabic: "تلقائي", Spanish: "Auto", French: "Auto", Chinese: "自动", Japanese: "自動", German: "Auto" },
+
+  // Memory
+  "Memory timeline": { Hindi: "मेमोरी टाइमलाइन", Arabic: "خط الذكريات", Spanish: "Cronología de recuerdos", French: "Chronologie des souvenirs", Chinese: "记忆时间线", Japanese: "メモリータイムライン", German: "Erinnerungs-Zeitleiste" },
+  "Moments PhoneX is keeping for you": { Hindi: "फ़ोनएक्स आपके लिए संजो रहा है", Arabic: "لحظات يحفظها PhoneX لك", Spanish: "Momentos que PhoneX guarda", French: "Moments que PhoneX garde pour vous", Chinese: "PhoneX 为您保存的时刻", Japanese: "PhoneXが保存する瞬間", German: "Momente, die PhoneX für dich bewahrt" },
+  "All": { Hindi: "सभी", Arabic: "الكل", Spanish: "Todos", French: "Tous", Chinese: "全部", Japanese: "すべて", German: "Alle" },
+  "Family": { Hindi: "परिवार", Arabic: "العائلة", Spanish: "Familia", French: "Famille", Chinese: "家庭", Japanese: "家族", German: "Familie" },
+  "Health": { Hindi: "स्वास्थ्य", Arabic: "الصحة", Spanish: "Salud", French: "Santé", Chinese: "健康", Japanese: "健康", German: "Gesundheit" },
+  "Travel": { Hindi: "यात्रा", Arabic: "السفر", Spanish: "Viajes", French: "Voyages", Chinese: "旅行", Japanese: "旅行", German: "Reisen" },
+  "Ideas": { Hindi: "विचार", Arabic: "أفكار", Spanish: "Ideas", French: "Idées", Chinese: "想法", Japanese: "アイデア", German: "Ideen" },
+
+  // Profile
+  "Your PhoneX Dashboard": { Hindi: "आपका फ़ोनएक्स डैशबोर्ड", Arabic: "لوحة PhoneX الخاصة بك", Spanish: "Tu panel de PhoneX", French: "Votre tableau PhoneX", Chinese: "您的 PhoneX 面板", Japanese: "PhoneXダッシュボード", German: "Dein PhoneX-Dashboard" },
+  "Everything your companion can do": { Hindi: "आपका साथी क्या-क्या कर सकता है", Arabic: "كل ما يستطيع رفيقك فعله", Spanish: "Todo lo que tu compañero puede hacer", French: "Tout ce que votre compagnon peut faire", Chinese: "您的伴侣可以做的一切", Japanese: "コンパニオンができるすべて", German: "Alles, was dein Begleiter kann" },
+  "PhoneX features available": { Hindi: "फ़ोनएक्स सुविधाएँ", Arabic: "ميزات PhoneX المتاحة", Spanish: "Funciones disponibles", French: "Fonctionnalités disponibles", Chinese: "可用功能", Japanese: "利用可能な機能", German: "Verfügbare Funktionen" },
+  "Personal growth": { Hindi: "व्यक्तिगत विकास", Arabic: "النمو الشخصي", Spanish: "Crecimiento personal", French: "Croissance personnelle", Chinese: "个人成长", Japanese: "パーソナル成長", German: "Persönliches Wachstum" },
+  "On": { Hindi: "चालू", Arabic: "قيد التشغيل", Spanish: "Activo", French: "Activé", Chinese: "开启", Japanese: "オン", German: "An" },
+  "Your data stays protected": { Hindi: "आपका डेटा सुरक्षित रहता है", Arabic: "بياناتك محمية", Spanish: "Tus datos están protegidos", French: "Vos données sont protégées", Chinese: "您的数据受保护", Japanese: "データは保護されています", German: "Deine Daten sind geschützt" },
+  "Conversations are encrypted on-device. You decide what PhoneX remembers.": { Hindi: "बातचीत डिवाइस पर एन्क्रिप्टेड है। आप तय करते हैं फ़ोनएक्स क्या याद रखे।", Arabic: "المحادثات مشفرة على الجهاز. أنت تقرر ماذا يتذكر PhoneX.", Spanish: "Conversaciones cifradas en el dispositivo. Tú decides qué recuerda PhoneX.", French: "Conversations chiffrées sur l'appareil. Vous décidez de ce que PhoneX retient.", Chinese: "对话在设备上加密。您决定 PhoneX 记住什么。", Japanese: "会話は端末で暗号化。何を覚えるかはあなた次第。", German: "Gespräche sind auf dem Gerät verschlüsselt. Du entscheidest, was PhoneX behält." },
+  "AI Assistant": { Hindi: "एआई सहायक", Arabic: "مساعد الذكاء", Spanish: "Asistente IA", French: "Assistant IA", Chinese: "AI 助手", Japanese: "AIアシスタント", German: "KI-Assistent" },
+  "Always with you": { Hindi: "हमेशा आपके साथ", Arabic: "دائمًا معك", Spanish: "Siempre contigo", French: "Toujours avec vous", Chinese: "始终陪伴", Japanese: "いつも一緒に", German: "Immer bei dir" },
+  "Personal Memory": { Hindi: "व्यक्तिगत स्मृति", Arabic: "الذاكرة الشخصية", Spanish: "Memoria personal", French: "Mémoire personnelle", Chinese: "个人记忆", Japanese: "パーソナルメモリー", German: "Persönliche Erinnerung" },
+  "Remembers your life": { Hindi: "आपका जीवन याद रखता है", Arabic: "يتذكر حياتك", Spanish: "Recuerda tu vida", French: "Se souvient de votre vie", Chinese: "记住您的生活", Japanese: "あなたの生活を記憶", German: "Erinnert dein Leben" },
+  "Voice Companion": { Hindi: "वॉइस साथी", Arabic: "رفيق صوتي", Spanish: "Compañero de voz", French: "Compagnon vocal", Chinese: "语音伴侣", Japanese: "音声コンパニオン", German: "Sprachbegleiter" },
+  "Talk naturally": { Hindi: "स्वाभाविक रूप से बात करें", Arabic: "تحدث بطبيعية", Spanish: "Habla natural", French: "Parlez naturellement", Chinese: "自然对话", Japanese: "自然に話す", German: "Natürlich sprechen" },
+  "Life Tracking": { Hindi: "जीवन ट्रैकिंग", Arabic: "تتبع الحياة", Spanish: "Seguimiento de vida", French: "Suivi de vie", Chinese: "生活追踪", Japanese: "ライフトラッキング", German: "Lebens-Tracking" },
+  "Habits & wellbeing": { Hindi: "आदतें और भलाई", Arabic: "العادات والصحة", Spanish: "Hábitos y bienestar", French: "Habitudes et bien-être", Chinese: "习惯与健康", Japanese: "習慣とウェルビーイング", German: "Gewohnheiten & Wohlbefinden" },
+  "Smart Recommendations": { Hindi: "स्मार्ट सिफ़ारिशें", Arabic: "توصيات ذكية", Spanish: "Recomendaciones", French: "Recommandations", Chinese: "智能推荐", Japanese: "スマート推奨", German: "Empfehlungen" },
+  "Personalized for you": { Hindi: "आपके लिए वैयक्तिकृत", Arabic: "مخصص لك", Spanish: "Personalizado para ti", French: "Personnalisé pour vous", Chinese: "为您定制", Japanese: "あなた向けにカスタム", German: "Für dich personalisiert" },
+  "Achievements": { Hindi: "उपलब्धियाँ", Arabic: "الإنجازات", Spanish: "Logros", French: "Réussites", Chinese: "成就", Japanese: "実績", German: "Erfolge" },
+  "Daily progress": { Hindi: "दैनिक प्रगति", Arabic: "التقدم اليومي", Spanish: "Progreso diario", French: "Progrès quotidien", Chinese: "每日进度", Japanese: "毎日の進捗", German: "Tagesfortschritt" },
+  "AI suggestions": { Hindi: "एआई सुझाव", Arabic: "اقتراحات الذكاء", Spanish: "Sugerencias IA", French: "Suggestions IA", Chinese: "AI 建议", Japanese: "AI提案", German: "KI-Vorschläge" },
+  "5 active": { Hindi: "5 सक्रिय", Arabic: "5 نشط", Spanish: "5 activas", French: "5 actifs", Chinese: "5 项进行", Japanese: "5件アクティブ", German: "5 aktiv" },
+  "12 earned": { Hindi: "12 अर्जित", Arabic: "12 مكتسب", Spanish: "12 obtenidos", French: "12 obtenus", Chinese: "已获 12", Japanese: "12件獲得", German: "12 erhalten" },
+  "3 new": { Hindi: "3 नए", Arabic: "3 جديد", Spanish: "3 nuevas", French: "3 nouvelles", Chinese: "3 条新", Japanese: "3件新規", German: "3 neu" },
+
+  // Voice
+  "Listening…": { Hindi: "सुन रहा हूँ…", Arabic: "أستمع…", Spanish: "Escuchando…", French: "J'écoute…", Chinese: "正在聆听…", Japanese: "聞いています…", German: "Ich höre zu…" },
+  "Hi Akshit, I'm here.": { Hindi: "नमस्ते अक्षित, मैं यहाँ हूँ।", Arabic: "مرحبًا أكشيت، أنا هنا.", Spanish: "Hola Akshit, estoy aquí.", French: "Salut Akshit, je suis là.", Chinese: "你好 Akshit，我在这里。", Japanese: "こんにちはAkshit、ここにいます。", German: "Hallo Akshit, ich bin da." },
+  "Microphone": { Hindi: "माइक्रोफ़ोन", Arabic: "الميكروفون", Spanish: "Micrófono", French: "Microphone", Chinese: "麦克风", Japanese: "マイク", German: "Mikrofon" },
+  "Stop": { Hindi: "रोकें", Arabic: "إيقاف", Spanish: "Detener", French: "Arrêter", Chinese: "停止", Japanese: "停止", German: "Stopp" },
+};
+
+const EXTRA_DICT: Record<string, Partial<Record<Lang, string>>> = {
+  "Home": { Gujarati: "હોમ", Telugu: "హోమ్", Kannada: "ಹೋಮ್" },
+  "Life": { Gujarati: "જીવન", Telugu: "జీవితం", Kannada: "ಜೀವನ" },
+  "Memory": { Gujarati: "સ્મૃતિ", Telugu: "స్మృతి", Kannada: "ಸ್ಮರಣೆ" },
+  "Profile": { Gujarati: "પ્રોફાઇલ", Telugu: "ప్రొఫైల్", Kannada: "ಪ್ರೊಫೈಲ್" },
+  "Talk to PhoneX": { Gujarati: "PhoneX સાથે વાત કરો", Telugu: "PhoneXతో మాట్లాడండి", Kannada: "PhoneX ಜೊತೆ ಮಾತನಾಡಿ" },
+  "Your AI life companion": { Gujarati: "તમારો AI જીવન સાથી", Telugu: "మీ AI జీవన తోడు", Kannada: "ನಿಮ್ಮ AI ಜೀವನ ಸಂಗಾತಿ" },
+  "About PhoneX": { Gujarati: "PhoneX વિશે", Telugu: "PhoneX గురించి", Kannada: "PhoneX ಬಗ್ಗೆ" },
+  "Subscription Details": { Gujarati: "સબ્સ્ક્રિપ્શન વિગતો", Telugu: "సభ్యత్వ వివరాలు", Kannada: "ಚಂದಾದಾರಿಕೆ ವಿವರಗಳು" },
+  "PhoneX Personality": { Gujarati: "PhoneX વ્યક્તિત્વ", Telugu: "PhoneX వ్యక్తిత్వం", Kannada: "PhoneX ವ್ಯಕ್ತಿತ್ವ" },
+  "PhoneX learns from you privately. Conversations stay encrypted on-device.": { Gujarati: "PhoneX ખાનગી રીતે તમારી પાસેથી શીખે છે. વાતચીત ડિવાઇસ પર એન્ક્રિપ્ટેડ રહે છે.", Telugu: "PhoneX మీ నుంచే ప్రైవేట్‌గా నేర్చుకుంటుంది. సంభాషణలు పరికరంలోనే గుప్తీకరించబడతాయి.", Kannada: "PhoneX ನಿಮ್ಮಿಂದ ಖಾಸಗಿಯಾಗಿ ಕಲಿಯುತ್ತದೆ. ಸಂಭಾಷಣೆಗಳು ಸಾಧನದಲ್ಲೇ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿರುತ್ತವೆ." },
+  "Settings": { Gujarati: "સેટિંગ્સ", Telugu: "సెట్టింగ్స్", Kannada: "ಸೆಟ್ಟಿಂಗ್‌ಗಳು" },
+  "Manage your PhoneX experience": { Gujarati: "તમારા PhoneX અનુભવને સંચાલિત કરો", Telugu: "మీ PhoneX అనుభవాన్ని నిర్వహించండి", Kannada: "ನಿಮ್ಮ PhoneX ಅನುಭವವನ್ನು ನಿರ್ವಹಿಸಿ" },
+  "Permissions": { Gujarati: "પરવાનગીઓ", Telugu: "అనుమతులు", Kannada: "ಅನುಮತಿಗಳು" },
+  "Access & privacy": { Gujarati: "ઍક્સેસ અને ગોપનીયતા", Telugu: "ప్రవేశం & గోప్యత", Kannada: "ಪ್ರವೇಶ ಮತ್ತು ಗೌಪ್ಯತೆ" },
+  "Language": { Gujarati: "ભાષા", Telugu: "భాష", Kannada: "ಭಾಷೆ" },
+  "App & voice language": { Gujarati: "ઍપ અને અવાજની ભાષા", Telugu: "యాప్ & వాయిస్ భాష", Kannada: "ಅ್ಯಪ್ ಮತ್ತು ಧ್ವನಿ ಭಾಷೆ" },
+  "Logout": { Gujarati: "લૉગ આઉટ", Telugu: "లాగ్ అవుట్", Kannada: "ಲಾಗ್ ಔಟ್" },
+  "Choose how PhoneX speaks with you": { Gujarati: "PhoneX તમારી સાથે કેવી રીતે બોલે તે પસંદ કરો", Telugu: "PhoneX మీతో ఎలా మాట్లాడాలో ఎంచుకోండి", Kannada: "PhoneX ನಿಮ್ಮೊಂದಿಗೆ ಹೇಗೆ ಮಾತನಾಡಬೇಕು ಆಯ್ಕೆಮಾಡಿ" },
+  "active": { Gujarati: "સક્રિય", Telugu: "సక్రియం", Kannada: "ಸಕ್ರಿಯ" },
+  "PhoneX Premium": { Gujarati: "PhoneX પ્રીમિયમ", Telugu: "PhoneX ప్రీమియం", Kannada: "PhoneX ಪ್ರೀಮಿಯಂ" },
+  "Your AI companion is active": { Gujarati: "તમારો AI સાથી સક્રિય છે", Telugu: "మీ AI తోడు సక్రియంగా ఉంది", Kannada: "ನಿಮ್ಮ AI ಸಂಗಾತಿ ಸಕ್ರಿಯವಾಗಿದೆ" },
+  "How can I help you?": { Gujarati: "હું તમને કેવી રીતે મદદ કરી શકું?", Telugu: "నేను మీకు ఎలా సహాయం చేయగలను?", Kannada: "ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?" },
+  "Plan my day": { Gujarati: "મારો દિવસ આયોજન કરો", Telugu: "నా రోజును ప్లాన్ చేయండి", Kannada: "ನನ್ನ ದಿನವನ್ನು ಯೋಜಿಸಿ" },
+  "Remember something": { Gujarati: "કંઈક યાદ રાખો", Telugu: "ఏదైనా గుర్తుంచుకోండి", Kannada: "ಏನನ್ನಾದರೂ ನೆನಪಿಡಿ" },
+  "Track my health": { Gujarati: "મારું આરોગ્ય ટ્રૅક કરો", Telugu: "నా ఆరోగ్యాన్ని ట్రాక్ చేయండి", Kannada: "ನನ್ನ ಆರೋಗ್ಯವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ" },
+  "Solve a problem": { Gujarati: "સમસ્યા ઉકેલો", Telugu: "సమస్యను పరిష్కరించండి", Kannada: "ಸಮಸ್ಯೆ ಪರಿಹರಿಸಿ" },
+  "Talk": { Gujarati: "વાત કરો", Telugu: "మాట్లాడు", Kannada: "ಮಾತನಾಡಿ" },
+  "Chat": { Gujarati: "ચેટ", Telugu: "చాట్", Kannada: "ಚಾಟ್" },
+  "Today's life summary": { Gujarati: "આજનું જીવન સારાંશ", Telugu: "నేటి జీవన సారాంశం", Kannada: "ಇಂದಿನ ಜೀವನ ಸಾರಾಂಶ" },
+  "80% productive": { Gujarati: "80% ઉત્પાદક", Telugu: "80% ఉత్పాదకంగా", Kannada: "80% ಉತ್ಪಾದಕ" },
+  "See all": { Gujarati: "બધું જુઓ", Telugu: "అన్నీ చూడండి", Kannada: "ಎಲ್ಲ ನೋಡಿ" },
+  "Tasks": { Gujarati: "કાર્યો", Telugu: "పనులు", Kannada: "ಕೆಲಸಗಳು" },
+  "completed": { Gujarati: "પૂર્ણ", Telugu: "పూర్తయ్యాయి", Kannada: "ಪೂರ್ಣಗೊಂಡಿವೆ" },
+  "Fitness": { Gujarati: "ફિટનેસ", Telugu: "ఫిట్‌నెస్", Kannada: "ಫಿಟ್ನೆಸ್" },
+  "walked today": { Gujarati: "આજે ચાલ્યા", Telugu: "ఈరోజు నడిచారు", Kannada: "ಇಂದು ನಡೆದದ್ದು" },
+  "Mood": { Gujarati: "મૂડ", Telugu: "మనోభావం", Kannada: "ಮನಸ್ಥಿತಿ" },
+  "Calm": { Gujarati: "શાંત", Telugu: "శాంతంగా", Kannada: "ಶಾಂತ" },
+  "balanced": { Gujarati: "સંતુલિત", Telugu: "సమతుల్యం", Kannada: "ಸಮತೋಲಿತ" },
+  "Memories": { Gujarati: "યાદો", Telugu: "జ్ఞాపకాలు", Kannada: "ನೆನಪುಗಳು" },
+  "3 saved": { Gujarati: "3 સાચવ્યા", Telugu: "3 సేవ్ అయ్యాయి", Kannada: "3 ಉಳಿಸಲಾಗಿದೆ" },
+  "this week": { Gujarati: "આ અઠવાડિયે", Telugu: "ఈ వారం", Kannada: "ಈ ವಾರ" },
+  "Next up · 11:30": { Gujarati: "આગળ · 11:30", Telugu: "తర్వాత · 11:30", Kannada: "ಮುಂದೆ · 11:30" },
+  "Open": { Gujarati: "ખોલો", Telugu: "తెరవండి", Kannada: "ತೆರೆಯಿರಿ" },
+  "Design review with Sarah & the product team": { Gujarati: "સારા અને પ્રોડક્ટ ટીમ સાથે ડિઝાઇન સમીક્ષા", Telugu: "సారా మరియు ఉత్పత్తి బృందంతో డిజైన్ సమీక్ష", Kannada: "ಸಾರಾ ಮತ್ತು ಉತ್ಪನ್ನ ತಂಡದೊಂದಿಗೆ ವಿನ್ಯಾಸ ವಿಮರ್ಶೆ" },
+  "AI analyzing your life": { Gujarati: "AI તમારા જીવનનું વિશ્લેષણ કરી રહ્યું છે", Telugu: "AI మీ జీవితాన్ని విశ్లేషిస్తోంది", Kannada: "AI ನಿಮ್ಮ ಜೀವನವನ್ನು ವಿಶ್ಲೇಷಿಸುತ್ತಿದೆ" },
+  "Life Insights": { Gujarati: "જીવન અંતર્દૃષ્ટિ", Telugu: "జీవన అంతర్దృష్టులు", Kannada: "ಜೀವನ ಒಳನೋಟಗಳು" },
+  "Patterns, health, productivity & goals": { Gujarati: "પેટર્ન, આરોગ્ય, ઉત્પાદકતા અને લક્ષ્યો", Telugu: "నమూనాలు, ఆరోగ్యం, ఉత్పాదకత & లక్ష్యాలు", Kannada: "ಮಾದರಿಗಳು, ಆರೋಗ್ಯ, ಉತ್ಪಾದಕತೆ ಮತ್ತು ಗುರಿಗಳು" },
+  "Friday, January 17": { Gujarati: "શુક્રવાર, 17 જાન્યુઆરી", Telugu: "శుక్రవారం, జనవరి 17", Kannada: "ಶುಕ್ರವಾರ, ಜನವರಿ 17" },
+  "Daily timeline": { Gujarati: "દૈનિક સમયરેખા", Telugu: "రోజువారీ టైమ్‌లైన్", Kannada: "ದೈನಂದಿನ ಸಮಯರೇಖೆ" },
+  "Goals": { Gujarati: "લક્ષ્યો", Telugu: "లక్ష్యాలు", Kannada: "ಗುರಿಗಳು" },
+  "Smart suggestions": { Gujarati: "સ્માર્ટ સૂચનો", Telugu: "స్మార్ట్ సూచనలు", Kannada: "ಸ್ಮಾರ್ಟ್ ಸಲಹೆಗಳು" },
+  "Complete your workout today": { Gujarati: "આજે તમારો વર્કઆઉટ પૂર્ણ કરો", Telugu: "ఈరోజు మీ వ్యాయామాన్ని పూర్తి చేయండి", Kannada: "ಇಂದು ನಿಮ್ಮ ವ್ಯಾಯಾಮವನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ" },
+  "Review your weekly goals": { Gujarati: "તમારા સાપ્તાહિક લક્ષ્યો સમીક્ષો", Telugu: "మీ వారపు లక్ష్యాలను సమీక్షించండి", Kannada: "ನಿಮ್ಮ ವಾರದ ಗುರಿಗಳನ್ನು ಪರಿಶೀಲಿಸಿ" },
+  "Schedule family time on Sunday": { Gujarati: "રવિવારે પરિવાર સમય શેડ્યૂલ કરો", Telugu: "ఆదివారం కుటుంబ సమయాన్ని షెడ్యూల్ చేయండి", Kannada: "ಭಾನುವಾರ ಕುಟುಂಬ ಸಮಯ ನಿಗದಿ ಮಾಡಿ" },
+  "Career": { Gujarati: "કારકિર્દી", Telugu: "వృత్తి", Kannada: "ವೃತ್ತಿ" },
+  "Learning": { Gujarati: "શીખવું", Telugu: "అభ్యాసం", Kannada: "ಕಲಿಕೆ" },
+  "Personal": { Gujarati: "વ્યક્તિગત", Telugu: "వ్యక్తిగత", Kannada: "ವೈಯಕ್ತಿಕ" },
+  "Done": { Gujarati: "પૂર્ણ", Telugu: "పూర్తి", Kannada: "ಮುಗಿದಿದೆ" },
+  "Soon": { Gujarati: "જલ્દી", Telugu: "త్వరలో", Kannada: "ಶೀಘ್ರದಲ್ಲೇ" },
+  "Upcoming": { Gujarati: "આગામી", Telugu: "రాబోయే", Kannada: "ಮುಂಬರುವ" },
+  "Auto": { Gujarati: "ઑટો", Telugu: "ఆటో", Kannada: "ಆಟೋ" },
+  "Memory timeline": { Gujarati: "સ્મૃતિ સમયરેખા", Telugu: "స్మృతి టైమ్‌లైన్", Kannada: "ಸ್ಮರಣೆ ಸಮಯರೇಖೆ" },
+  "Moments PhoneX is keeping for you": { Gujarati: "PhoneX તમારા માટે સાચવી રહેલા પળો", Telugu: "PhoneX మీ కోసం నిల్వ చేస్తున్న క్షణాలు", Kannada: "PhoneX ನಿಮಗಾಗಿ ಉಳಿಸುವ ಕ್ಷಣಗಳು" },
+  "All": { Gujarati: "બધું", Telugu: "అన్నీ", Kannada: "ಎಲ್ಲ" },
+  "Family": { Gujarati: "પરિવાર", Telugu: "కుటుంబం", Kannada: "ಕುಟುಂಬ" },
+  "Health": { Gujarati: "આરોગ્ય", Telugu: "ఆరోగ్యం", Kannada: "ಆರೋಗ್ಯ" },
+  "Travel": { Gujarati: "મુસાફરી", Telugu: "ప్రయాణం", Kannada: "ಪ್ರಯಾಣ" },
+  "Ideas": { Gujarati: "વિચારો", Telugu: "ఆలోచనలు", Kannada: "ಆಲೋಚನೆಗಳು" },
+  "Your PhoneX Dashboard": { Gujarati: "તમારું PhoneX ડૅશબોર્ડ", Telugu: "మీ PhoneX డ్యాష్‌బోర్డ్", Kannada: "ನಿಮ್ಮ PhoneX ಡ್ಯಾಶ್‌ಬೋರ್ಡ್" },
+  "Everything your companion can do": { Gujarati: "તમારો સાથી કરી શકે તેવી દરેક વસ્તુ", Telugu: "మీ తోడు చేయగల ప్రతిదీ", Kannada: "ನಿಮ್ಮ ಸಂಗಾತಿ ಮಾಡಬಹುದಾದ ಎಲ್ಲವೂ" },
+  "PhoneX features available": { Gujarati: "PhoneX સુવિધાઓ ઉપલબ્ધ", Telugu: "PhoneX ఫీచర్లు అందుబాటులో", Kannada: "PhoneX ವೈಶಿಷ್ಟ್ಯಗಳು ಲಭ್ಯ" },
+  "Personal growth": { Gujarati: "વ્યક્તિગત વૃદ્ધિ", Telugu: "వ్యక్తిగత వృద్ధి", Kannada: "ವೈಯಕ್ತಿಕ ಬೆಳವಣಿಗೆ" },
+  "On": { Gujarati: "ચાલુ", Telugu: "ఆన్", Kannada: "ಆನ್" },
+  "Your data stays protected": { Gujarati: "તમારો ડેટા સુરક્ષિત રહે છે", Telugu: "మీ డేటా రక్షితంగా ఉంటుంది", Kannada: "ನಿಮ್ಮ ಡೇಟಾ ಸುರಕ್ಷಿತವಾಗಿರುತ್ತದೆ" },
+  "Conversations are encrypted on-device. You decide what PhoneX remembers.": { Gujarati: "વાતચીત ડિવાઇસ પર એન્ક્રિપ્ટેડ છે. PhoneX શું યાદ રાખે તે તમે નક્કી કરો.", Telugu: "సంభాషణలు పరికరంలో గుప్తీకరించబడ్డాయి. PhoneX ఏమి గుర్తుంచుకోవాలో మీరు నిర్ణయిస్తారు.", Kannada: "ಸಂಭಾಷಣೆಗಳು ಸಾಧನದಲ್ಲೇ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿವೆ. PhoneX ಏನು ನೆನಪಿಡಬೇಕು ಎಂದು ನೀವು ತೀರ್ಮಾನಿಸುತ್ತೀರಿ." },
+  "AI Assistant": { Gujarati: "AI સહાયક", Telugu: "AI సహాయకుడు", Kannada: "AI ಸಹಾಯಕ" },
+  "Always with you": { Gujarati: "હંમેશા તમારી સાથે", Telugu: "ఎల్లప్పుడూ మీతో", Kannada: "ಯಾವಾಗಲೂ ನಿಮ್ಮೊಂದಿಗೆ" },
+  "Personal Memory": { Gujarati: "વ્યક્તિગત સ્મૃતિ", Telugu: "వ్యక్తిగత స్మృతి", Kannada: "ವೈಯಕ್ತಿಕ ಸ್ಮರಣೆ" },
+  "Remembers your life": { Gujarati: "તમારું જીવન યાદ રાખે છે", Telugu: "మీ జీవితాన్ని గుర్తుంచుకుంటుంది", Kannada: "ನಿಮ್ಮ ಜೀವನವನ್ನು ನೆನಪಿಡುತ್ತದೆ" },
+  "Voice Companion": { Gujarati: "અવાજ સાથી", Telugu: "వాయిస్ తోడు", Kannada: "ಧ್ವನಿ ಸಂಗಾತಿ" },
+  "Talk naturally": { Gujarati: "સ્વાભાવિક રીતે વાત કરો", Telugu: "సహజంగా మాట్లాడండి", Kannada: "ಸ್ವಾಭಾವಿಕವಾಗಿ ಮಾತನಾಡಿ" },
+  "Life Tracking": { Gujarati: "જીવન ટ્રેકિંગ", Telugu: "జీవిత ట్రాకింగ్", Kannada: "ಜೀವನ ಟ್ರ್ಯಾಕಿಂಗ್" },
+  "Habits & wellbeing": { Gujarati: "આદતો અને સુખાકારી", Telugu: "అలవాట్లు & శ్రేయస్సు", Kannada: "ಅಭ್ಯಾಸಗಳು ಮತ್ತು ಕ್ಷೇಮ" },
+  "Smart Recommendations": { Gujarati: "સ્માર્ટ ભલામણો", Telugu: "స్మార్ట్ సిఫార్సులు", Kannada: "ಸ್ಮಾರ್ಟ್ ಶಿಫಾರಸುಗಳು" },
+  "Personalized for you": { Gujarati: "તમારા માટે વ્યક્તિગત", Telugu: "మీ కోసం వ్యక్తిగతీకరించబడింది", Kannada: "ನಿಮಗಾಗಿ ವೈಯಕ್ತೀಕರಿಸಲಾಗಿದೆ" },
+  "Achievements": { Gujarati: "સિદ્ધિઓ", Telugu: "సాధనలు", Kannada: "ಸಾಧನೆಗಳು" },
+  "Daily progress": { Gujarati: "દૈનિક પ્રગતિ", Telugu: "రోజువారీ పురోగతి", Kannada: "ದೈನಂದಿನ ಪ್ರಗತಿ" },
+  "AI suggestions": { Gujarati: "AI સૂચનો", Telugu: "AI సూచనలు", Kannada: "AI ಸಲಹೆಗಳು" },
+  "5 active": { Gujarati: "5 સક્રિય", Telugu: "5 సక్రియం", Kannada: "5 ಸಕ್ರಿಯ" },
+  "12 earned": { Gujarati: "12 મેળવ્યા", Telugu: "12 సంపాదించారు", Kannada: "12 ಗಳಿಸಲಾಗಿದೆ" },
+  "3 new": { Gujarati: "3 નવા", Telugu: "3 కొత్తవి", Kannada: "3 ಹೊಸವು" },
+  "Listening…": { Gujarati: "સાંભળી રહ્યો છું…", Telugu: "వింటున్నాను…", Kannada: "ಕೇಳುತ್ತಿದ್ದೇನೆ…" },
+  "Hi Akshit, I'm here.": { Gujarati: "હાય અક્ષિત, હું અહીં છું.", Telugu: "హాయ్ అక్షిత్, నేను ఇక్కడ ఉన్నాను.", Kannada: "ಹಾಯ್ ಅಕ್ಷಿತ್, ನಾನು ಇಲ್ಲಿದ್ದೇನೆ." },
+  "Microphone": { Gujarati: "માઇક્રોફોન", Telugu: "మైక్రోఫోన్", Kannada: "ಮೈಕ್ರೋಫೋನ್" },
+  "Stop": { Gujarati: "રોકો", Telugu: "ఆపు", Kannada: "ನಿಲ್ಲಿಸಿ" },
+  "Online": { Hindi: "ऑनलाइन", Gujarati: "ઑનલાઇન", Telugu: "ఆన్‌లైన్", Kannada: "ಆನ್‌ಲೈನ್", Arabic: "متصل", Spanish: "en línea", French: "en ligne", Chinese: "在线", Japanese: "オンライン", German: "online" },
+  "online": { Hindi: "ऑनलाइन", Gujarati: "ઑનલાઇન", Telugu: "ఆన్‌లైన్", Kannada: "ಆನ್‌ಲೈನ್", Arabic: "متصل", Spanish: "en línea", French: "en ligne", Chinese: "在线", Japanese: "オンライン", German: "online" },
+  "Message PhoneX…": { Hindi: "PhoneX को संदेश…", Gujarati: "PhoneX ને સંદેશ…", Telugu: "PhoneXకు సందేశం…", Kannada: "PhoneX ಗೆ ಸಂದೇಶ…", Arabic: "راسل PhoneX…", Spanish: "Mensaje a PhoneX…", French: "Message à PhoneX…", Chinese: "给 PhoneX 发消息…", Japanese: "PhoneXにメッセージ…", German: "PhoneX schreiben…" },
+  "Got it. I've saved that for you.": { Hindi: "समझ गया। मैंने इसे आपके लिए सहेज लिया है।", Gujarati: "સમજાયું. મેં તે તમારા માટે સાચવી દીધું છે.", Telugu: "అర్థమైంది. దాన్ని మీ కోసం సేవ్ చేశాను.", Kannada: "ಅರ್ಥವಾಯಿತು. ಅದನ್ನು ನಿಮಗಾಗಿ ಉಳಿಸಿದ್ದೇನೆ.", Arabic: "تم. حفظت ذلك لك.", Spanish: "Entendido. Lo guardé para ti.", French: "Compris. Je l'ai enregistré pour vous.", Chinese: "收到。我已为您保存。", Japanese: "了解しました。保存しました。", German: "Verstanden. Ich habe es für dich gespeichert." },
+  "Hi Akshit, I'm here. What's on your mind today?": { Hindi: "नमस्ते अक्षित, मैं यहाँ हूँ। आज आपके मन में क्या है?", Gujarati: "હાય અક્ષિત, હું અહીં છું. આજે તમારા મનમાં શું છે?", Telugu: "హాయ్ అక్షిత్, నేను ఇక్కడున్నాను. ఈరోజు మీ మనసులో ఏముంది?", Kannada: "ಹಾಯ್ ಅಕ್ಷಿತ್, ನಾನು ಇಲ್ಲಿದ್ದೇನೆ. ಇಂದು ನಿಮ್ಮ ಮನಸ್ಸಿನಲ್ಲಿ ಏನು ಇದೆ?", Arabic: "مرحبًا أكشيت، أنا هنا. ما الذي يشغل بالك اليوم؟", Spanish: "Hola Akshit, estoy aquí. ¿Qué tienes en mente hoy?", French: "Salut Akshit, je suis là. Qu'avez-vous en tête aujourd'hui ?", Chinese: "你好 Akshit，我在。今天想聊什么？", Japanese: "こんにちはAkshit、ここにいます。今日は何を考えていますか？", German: "Hallo Akshit, ich bin da. Was beschäftigt dich heute?" },
+  "Remind me to call Mom this evening.": { Hindi: "आज शाम माँ को कॉल करने की याद दिलाना।", Gujarati: "આજે સાંજે મમ્મીને કૉલ કરવાનું યાદ કરાવજો.", Telugu: "ఈ సాయంత్రం అమ్మకు కాల్ చేయమని గుర్తు చేయండి.", Kannada: "ಇಂದು ಸಂಜೆ ಅಮ್ಮಗೆ ಕರೆ ಮಾಡಲು ನೆನಪಿಸಿ.", Arabic: "ذكرني بالاتصال بأمي هذا المساء.", Spanish: "Recuérdame llamar a mamá esta tarde.", French: "Rappelle-moi d'appeler maman ce soir.", Chinese: "提醒我今晚给妈妈打电话。", Japanese: "今晩母に電話するようリマインドして。", German: "Erinnere mich daran, heute Abend Mama anzurufen." },
+  "Done. I'll remind you at 7pm — and I'll keep her favourite topics nearby.": { Hindi: "हो गया। मैं आपको शाम 7 बजे याद दिलाऊँगा — और उनके पसंदीदा विषय पास रखूँगा।", Gujarati: "થઈ ગયું. હું તમને સાંજે 7 વાગ્યે યાદ કરાવીશ — અને તેમના મનપસંદ વિષયો નજીક રાખીશ.", Telugu: "పూర్తయింది. రాత్రి 7 గంటలకు గుర్తు చేస్తాను — ఆమెకు ఇష్టమైన విషయాలను దగ్గర ఉంచుతాను.", Kannada: "ಮುಗಿದಿದೆ. ಸಂಜೆ 7ಕ್ಕೆ ನೆನಪಿಸುತ್ತೇನೆ — ಅವಳಿಗೆ ಇಷ್ಟವಾದ ವಿಷಯಗಳನ್ನು ಸಿದ್ಧವಾಗಿಡುತ್ತೇನೆ.", Arabic: "تم. سأذكرك الساعة 7 مساءً — وسأبقي مواضيعها المفضلة قريبة.", Spanish: "Listo. Te recordaré a las 7 p. m. y tendré cerca sus temas favoritos.", French: "C'est fait. Je vous le rappellerai à 19 h — avec ses sujets préférés à portée.", Chinese: "完成。我会在晚上7点提醒您，并准备好她喜欢的话题。", Japanese: "完了。午後7時にリマインドし、彼女の好きな話題も用意しておきます。", German: "Erledigt. Ich erinnere dich um 19 Uhr und halte ihre Lieblingsthemen bereit." },
+  "Knowledge Vault": { Hindi: "ज्ञान वॉल्ट", Gujarati: "જ્ઞાન વૉલ્ટ", Telugu: "జ్ఞాన వాల్ట్", Kannada: "ಜ್ಞಾನ ವಾಲ್ಟ್", Arabic: "خزنة المعرفة", Spanish: "Bóveda de conocimiento", French: "Coffre de connaissances", Chinese: "知识库", Japanese: "ナレッジ保管庫", German: "Wissens-Tresor" },
+  "Recall your life": { Hindi: "अपना जीवन याद करें", Gujarati: "તમારું જીવન યાદ કરો", Telugu: "మీ జీవితాన్ని గుర్తు చేసుకోండి", Kannada: "ನಿಮ್ಮ ಜೀವನವನ್ನು ನೆನಪಿಸಿಕೊಳ್ಳಿ", Arabic: "استرجع حياتك", Spanish: "Recuerda tu vida", French: "Rappelez votre vie", Chinese: "回顾你的生活", Japanese: "人生を思い出す", German: "Dein Leben abrufen" },
+  "Features of PhoneX": { Hindi: "PhoneX की सुविधाएँ", Gujarati: "PhoneX સુવિધાઓ", Telugu: "PhoneX ఫీచర్లు", Kannada: "PhoneX ವೈಶಿಷ್ಟ್ಯಗಳು", Arabic: "ميزات PhoneX", Spanish: "Funciones de PhoneX", French: "Fonctionnalités de PhoneX", Chinese: "PhoneX 功能", Japanese: "PhoneXの機能", German: "PhoneX-Funktionen" },
+  "Explore PhoneX": { Hindi: "PhoneX एक्सप्लोर करें", Gujarati: "PhoneX શોધો", Telugu: "PhoneXని అన్వేషించండి", Kannada: "PhoneX ಅನ್ವೇಷಿಸಿ", Arabic: "استكشف PhoneX", Spanish: "Explora PhoneX", French: "Explorer PhoneX", Chinese: "探索 PhoneX", Japanese: "PhoneXを探索", German: "PhoneX entdecken" },
+  "Your personal operating system": { Hindi: "आपका व्यक्तिगत ऑपरेटिंग सिस्टम", Gujarati: "તમારી વ્યક્તિગત ઑપરેટિંગ સિસ્ટમ", Telugu: "మీ వ్యక్తిగత ఆపరేటింగ్ సిస్టమ్", Kannada: "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್", Arabic: "نظامك الشخصي", Spanish: "Tu sistema operativo personal", French: "Votre système d'exploitation personnel", Chinese: "您的个人操作系统", Japanese: "あなた専用のOS", German: "Dein persönliches Betriebssystem" },
+  "Agent automations": { Hindi: "एजेंट ऑटोमेशन", Gujarati: "એજન્ટ ઓટોમેશન", Telugu: "ఏజెంట్ ఆటోమేషన్లు", Kannada: "ಏಜೆಂಟ್ ಸ್ವಯಂಚಾಲನೆ", Arabic: "أتمتة الوكيل", Spanish: "Automatizaciones", French: "Automatisations", Chinese: "代理自动化", Japanese: "エージェント自動化", German: "Agent-Automationen" },
+  "Family AI": { Hindi: "परिवार AI", Gujarati: "પરિવાર AI", Telugu: "కుటుంబ AI", Kannada: "ಕುಟುಂಬ AI", Arabic: "ذكاء العائلة", Spanish: "IA familiar", French: "IA familiale", Chinese: "家庭 AI", Japanese: "家族AI", German: "Familien-KI" },
+  "My AI Clone": { Hindi: "मेरा AI क्लोन", Gujarati: "મારો AI ક્લોન", Telugu: "నా AI క్లోన్", Kannada: "ನನ್ನ AI ಕ್ಲೋನ್", Arabic: "نسختي الذكية", Spanish: "Mi clon IA", French: "Mon clone IA", Chinese: "我的 AI 克隆", Japanese: "私のAIクローン", German: "Mein KI-Klon" },
+  "Business Brain": { Hindi: "बिज़नेस ब्रेन", Gujarati: "બિઝનેસ બ્રેઇન", Telugu: "బిజినెస్ బ్రెయిన్", Kannada: "ವ್ಯವಹಾರ ಮೆದುಳು", Arabic: "عقل الأعمال", Spanish: "Cerebro empresarial", French: "Cerveau business", Chinese: "商业大脑", Japanese: "ビジネスブレイン", German: "Business Brain" },
+  "PhoneX Actions": { Hindi: "PhoneX क्रियाएँ", Gujarati: "PhoneX ક્રિયાઓ", Telugu: "PhoneX చర్యలు", Kannada: "PhoneX ಕ್ರಿಯೆಗಳು", Arabic: "إجراءات PhoneX", Spanish: "Acciones PhoneX", French: "Actions PhoneX", Chinese: "PhoneX 操作", Japanese: "PhoneXアクション", German: "PhoneX-Aktionen" },
+  "PhoneX Everywhere": { Hindi: "हर जगह PhoneX", Gujarati: "દરેક જગ્યાએ PhoneX", Telugu: "ప్రతిచోటా PhoneX", Kannada: "ಎಲ್ಲೆಡೆ PhoneX", Arabic: "PhoneX في كل مكان", Spanish: "PhoneX en todas partes", French: "PhoneX partout", Chinese: "PhoneX 无处不在", Japanese: "どこでもPhoneX", German: "PhoneX überall" },
+  "Digital Legacy": { Hindi: "डिजिटल विरासत", Gujarati: "ડિજિટલ વારસો", Telugu: "డిజిటల్ వారసత్వం", Kannada: "ಡಿಜಿಟಲ್ ಪರಂಪರೆ", Arabic: "الإرث الرقمي", Spanish: "Legado digital", French: "Héritage numérique", Chinese: "数字遗产", Japanese: "デジタルレガシー", German: "Digitales Vermächtnis" },
+  "For generations": { Hindi: "पीढ़ियों के लिए", Gujarati: "પેઢીઓ માટે", Telugu: "తరాల కోసం", Kannada: "ತಲೆಮಾರುಗಳಿಗಾಗಿ", Arabic: "للأجيال", Spanish: "Para generaciones", French: "Pour les générations", Chinese: "留给世代", Japanese: "世代のために", German: "Für Generationen" },
+  "Analytics": { Hindi: "विश्लेषण", Gujarati: "વિશ્લેષણ", Telugu: "విశ్లేషణ", Kannada: "ವಿಶ್ಲೇಷಣೆ", Arabic: "تحليلات", Spanish: "Analíticas", French: "Analyses", Chinese: "分析", Japanese: "分析", German: "Analysen" },
+  "Devices": { Hindi: "डिवाइस", Gujarati: "ડિવાઇસ", Telugu: "పరికరాలు", Kannada: "ಸಾಧನಗಳು", Arabic: "الأجهزة", Spanish: "Dispositivos", French: "Appareils", Chinese: "设备", Japanese: "デバイス", German: "Geräte" },
+  "Learning you": { Hindi: "आपको सीख रहा है", Gujarati: "તમને શીખી રહ્યું છે", Telugu: "మిమ్మల్ని నేర్చుకుంటోంది", Kannada: "ನಿಮ್ಮನ್ನು ಕಲಿಯುತ್ತಿದೆ", Arabic: "يتعلمك", Spanish: "Aprendiendo de ti", French: "Vous apprend", Chinese: "正在了解你", Japanese: "あなたを学習中", German: "Lernt dich" },
+  "Work knowledge": { Hindi: "काम का ज्ञान", Gujarati: "કામનું જ્ઞાન", Telugu: "పని జ్ఞానం", Kannada: "ಕೆಲಸದ ಜ್ಞಾನ", Arabic: "معرفة العمل", Spanish: "Conocimiento laboral", French: "Savoir professionnel", Chinese: "工作知识", Japanese: "仕事の知識", German: "Arbeitswissen" },
+  "Memories & tree": { Hindi: "यादें और वंश वृक्ष", Gujarati: "યાદો અને વૃક્ષ", Telugu: "జ్ఞాపకాలు & వంశవృక్షం", Kannada: "ನೆನಪುಗಳು ಮತ್ತು ವಂಶವೃಕ್ಷ", Arabic: "ذكريات وشجرة العائلة", Spanish: "Recuerdos y árbol", French: "Souvenirs et arbre", Chinese: "回忆与族谱", Japanese: "思い出と家系図", German: "Erinnerungen & Stammbaum" },
+};
+
+for (const [key, value] of Object.entries(EXTRA_DICT)) {
+  DICT[key] = { ...DICT[key], ...value };
+}
+
+const RTL: Lang[] = ["Arabic"];
+const LANG_CODE: Record<Lang, string> = {
+  English: "en",
+  Hindi: "hi",
+  Gujarati: "gu",
+  Telugu: "te",
+  Kannada: "kn",
+  Arabic: "ar",
+  Spanish: "es",
+  French: "fr",
+  Chinese: "zh",
+  Japanese: "ja",
+  German: "de",
+};
+
+const textOriginals = new WeakMap<Text, string>();
+const attrOriginals = new WeakMap<Element, Map<string, string>>();
+
+let sortedKeys: string[] | null = null;
+
+function getSortedKeys() {
+  if (!sortedKeys) sortedKeys = Object.keys(DICT).sort((a, b) => b.length - a.length);
+  return sortedKeys;
+}
+
+function translateValue(value: string, lang: Lang) {
+  if (lang === "English") return value;
+  const leading = value.match(/^\s*/)?.[0] ?? "";
+  const trailing = value.match(/\s*$/)?.[0] ?? "";
+  const core = value.trim();
+  if (!core) return value;
+  const normalized = core.replace(/\s+/g, " ");
+  const exact = DICT[normalized]?.[lang];
+  if (exact) return `${leading}${exact}${trailing}`;
+  let translated = core;
+  for (const key of getSortedKeys()) {
+    const replacement = DICT[key]?.[lang];
+    if (replacement && translated.includes(key)) translated = translated.split(key).join(replacement);
+  }
+  return `${leading}${translated}${trailing}`;
+}
+
+function hasTranslationValue(value: string, lang: Lang) {
+  if (lang === "English") return false;
+  const core = value.trim().replace(/\s+/g, " ");
+  if (!core) return false;
+  if (DICT[core]?.[lang]) return true;
+  return getSortedKeys().some((key) => Boolean(DICT[key]?.[lang]) && core.includes(key));
+}
+
+function translateDom(lang: Lang) {
+  if (typeof document === "undefined" || !document.body) return;
+
+  const applyText = (node: Text) => {
+    const parent = node.parentElement;
+    if (!parent || parent.closest("script, style, svg") || parent.dataset?.nativeText === "true") return;
+    if (!textOriginals.has(node)) {
+      if (lang !== "English" && !hasTranslationValue(node.data, lang)) return;
+      textOriginals.set(node, node.data);
+    }
+    const original = textOriginals.get(node) ?? node.data;
+    const next = translateValue(original, lang);
+    if (node.data !== next) node.data = next;
+  };
+
+  const applyAttrs = (el: Element) => {
+    if (el.closest("script, style, svg")) return;
+    for (const attr of ["placeholder", "aria-label", "title"] as const) {
+      const current = el.getAttribute(attr);
+      if (!current) continue;
+      let originals = attrOriginals.get(el);
+      if (!originals) {
+        originals = new Map<string, string>();
+        attrOriginals.set(el, originals);
+      }
+      if (!originals.has(attr)) {
+        if (lang !== "English" && !hasTranslationValue(current, lang)) continue;
+        originals.set(attr, current);
+      }
+      const original = originals.get(attr) ?? current;
+      const next = translateValue(original, lang);
+      if (current !== next) el.setAttribute(attr, next);
+    }
+  };
+
+  const walk = (root: Node & ParentNode) => {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let node = walker.nextNode();
+    while (node) {
+      applyText(node as Text);
+      node = walker.nextNode();
+    }
+    if (root instanceof Element) applyAttrs(root);
+    root.querySelectorAll?.("[placeholder], [aria-label], [title]").forEach(applyAttrs);
+  };
+
+  walk(document.body);
+}
+
+type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (s: string) => string };
+const LangContext = createContext<Ctx>({ lang: "English", setLang: () => {}, t: (s) => s });
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [lang, setLangState] = useState<Lang>("English");
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? (localStorage.getItem("phonex-lang") as Lang | null) : null;
+    if (saved) setLangState(saved);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.dir = RTL.includes(lang) ? "rtl" : "ltr";
+    document.documentElement.lang = LANG_CODE[lang];
+  }, [lang]);
+
+  useEffect(() => {
+    if (typeof MutationObserver === "undefined" || typeof document === "undefined") return;
+    translateDom(lang);
+    const observer = new MutationObserver((mutations) => {
+      translateDom(lang);
+      for (const mutation of mutations) {
+        mutation.addedNodes.forEach((node) => {
+          if (node instanceof Element || node instanceof Text) translateDom(lang);
+        });
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["placeholder", "aria-label", "title"] });
+    return () => observer.disconnect();
+  }, [lang]);
+
+  const setLang = (l: Lang) => {
+    setLangState(l);
+    if (typeof window !== "undefined") localStorage.setItem("phonex-lang", l);
+  };
+
+  const t = (s: string) => {
+    if (lang === "English") return s;
+    return DICT[s]?.[lang] ?? translateValue(s, lang);
+  };
+
+  return <LangContext.Provider value={{ lang, setLang, t }}>{children}</LangContext.Provider>;
+}
+
+export const useT = () => useContext(LangContext).t;
+export const useLang = () => useContext(LangContext);
