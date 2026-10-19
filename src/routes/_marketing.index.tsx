@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Container, Section, CTALink, Eyebrow } from "@/components/marketing/primitives";
-import { HeroDeviceVideo } from "@/components/marketing/HeroDeviceVideo";
+import { DeviceScreen } from "@/components/marketing/DeviceFrame";
 import { WhatIsPhoneX } from "@/components/marketing/WhatIsPhoneX";
 import { DayWithPhoneX } from "@/components/marketing/DayWithPhoneX";
 import { PhonexInAction } from "@/components/marketing/PhonexInAction";
@@ -36,15 +35,6 @@ export const Route = createFileRoute("/_marketing/")({
 });
 
 function MarketingHome() {
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if ("scrollRestoration" in window.history) {
-        window.history.scrollRestoration = "manual";
-      }
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    }
-  }, []);
-
   return (
     <>
     <Section size="hero" className="overflow-hidden">
@@ -88,25 +78,25 @@ function MarketingHome() {
           </p>
         </div>
 
-        {/* Right: PhoneX video inside a device */}
+        {/* Right: real PhoneX app inside a device */}
         <div className="mkt-reveal mkt-reveal-2 flex justify-center lg:justify-end">
-          <div className="relative w-full max-w-[300px] sm:max-w-[325px]">
+          <div className="relative w-full max-w-[288px] sm:max-w-[300px]">
             <div className="mkt-hero-aura pointer-events-none absolute inset-[-28%] -z-10 rounded-full blur-3xl" />
 
-            <HeroDeviceVideo glow={false} />
+            <DeviceScreen screen="home" height={844} glow={false} preview="hero-readable" />
 
             <HeroCallout
-              className="top-[12%] -left-6 mkt-reveal mkt-reveal-2 hidden md:flex lg:-left-[190px]"
+              className="top-[14%] -left-6 mkt-reveal mkt-reveal-2 hidden md:flex lg:-left-[210px]"
               icon={<Brain className="h-3.5 w-3.5 text-primary" />}
               label="Plan your day"
             />
             <HeroCallout
-              className="top-[46%] -right-6 mkt-reveal mkt-reveal-3 hidden md:flex lg:-left-[210px] lg:right-auto"
+              className="top-[45%] -right-6 mkt-reveal mkt-reveal-3 hidden md:flex lg:-left-[230px] lg:right-auto"
               icon={<Sparkles className="h-3.5 w-3.5 text-primary" />}
               label="Remember what matters"
             />
             <HeroCallout
-              className="bottom-[14%] -left-4 mkt-reveal mkt-reveal-3 hidden lg:flex lg:-left-[180px]"
+              className="bottom-[16%] -left-4 mkt-reveal mkt-reveal-3 hidden lg:flex lg:-left-[195px]"
               icon={<BarChart3 className="h-3.5 w-3.5 text-primary" />}
               label="Understand your life"
             />
