@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
-import { SiteFooter } from "@/components/marketing/SiteFooter";
+import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/_marketing")({
   component: MarketingLayout,
@@ -8,12 +8,14 @@ export const Route = createFileRoute("/_marketing")({
 
 function MarketingLayout() {
   return (
-    <div className="mkt min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-bg-primary text-ink-primary font-sans selection:bg-accent selection:text-white">
       <SiteHeader />
-      <main>
+      <main className="w-full">
         <Outlet />
       </main>
-      <SiteFooter />
+      <Footer />
     </div>
   );
 }
+
+export default MarketingLayout;

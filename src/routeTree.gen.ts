@@ -39,6 +39,7 @@ import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
 import { Route as MarketingFeaturesRouteImport } from './routes/_marketing.features'
 import { Route as MarketingGetStartedRouteImport } from './routes/_marketing.get-started'
 import { Route as MarketingPrivacyRouteImport } from './routes/_marketing.privacy'
+import { Route as MarketingPrivacyPolicyRouteImport } from './routes/_marketing.privacy-policy'
 import { Route as MarketingTermsRouteImport } from './routes/_marketing.terms'
 import { Route as AppFeaturesRouteImport } from './routes/app.features'
 import { Route as NotificationsIdRouteImport } from './routes/notifications.$id'
@@ -193,6 +194,11 @@ const MarketingPrivacyRoute = MarketingPrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => MarketingRoute,
 } as any)
+const MarketingPrivacyPolicyRoute = MarketingPrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => MarketingRoute,
+} as any)
 const MarketingTermsRoute = MarketingTermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/features': typeof MarketingFeaturesRoute
   '/get-started': typeof MarketingGetStartedRoute
   '/privacy': typeof MarketingPrivacyRoute
+  '/privacy-policy': typeof MarketingPrivacyPolicyRoute
   '/terms': typeof MarketingTermsRoute
   '/app/features': typeof AppFeaturesRoute
   '/notifications/$id': typeof NotificationsIdRoute
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/features': typeof MarketingFeaturesRoute
   '/get-started': typeof MarketingGetStartedRoute
   '/privacy': typeof MarketingPrivacyRoute
+  '/privacy-policy': typeof MarketingPrivacyPolicyRoute
   '/terms': typeof MarketingTermsRoute
   '/app/features': typeof AppFeaturesRoute
   '/notifications/$id': typeof NotificationsIdRoute
@@ -315,6 +323,7 @@ export interface FileRoutesById {
   '/_marketing/features': typeof MarketingFeaturesRoute
   '/_marketing/get-started': typeof MarketingGetStartedRoute
   '/_marketing/privacy': typeof MarketingPrivacyRoute
+  '/_marketing/privacy-policy': typeof MarketingPrivacyPolicyRoute
   '/_marketing/terms': typeof MarketingTermsRoute
   '/app/features': typeof AppFeaturesRoute
   '/notifications/$id': typeof NotificationsIdRoute
@@ -353,6 +362,7 @@ export interface FileRouteTypes {
     | '/features'
     | '/get-started'
     | '/privacy'
+    | '/privacy-policy'
     | '/terms'
     | '/app/features'
     | '/notifications/$id'
@@ -387,6 +397,7 @@ export interface FileRouteTypes {
     | '/features'
     | '/get-started'
     | '/privacy'
+    | '/privacy-policy'
     | '/terms'
     | '/app/features'
     | '/notifications/$id'
@@ -423,6 +434,7 @@ export interface FileRouteTypes {
     | '/_marketing/features'
     | '/_marketing/get-started'
     | '/_marketing/privacy'
+    | '/_marketing/privacy-policy'
     | '/_marketing/terms'
     | '/app/features'
     | '/notifications/$id'
@@ -672,6 +684,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingPrivacyRouteImport
       parentRoute: typeof MarketingRoute
     }
+    '/_marketing/privacy-policy': {
+      id: '/_marketing/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof MarketingPrivacyPolicyRouteImport
+      parentRoute: typeof MarketingRoute
+    }
     '/_marketing/terms': {
       id: '/_marketing/terms'
       path: '/terms'
@@ -707,6 +726,7 @@ interface MarketingRouteChildren {
   MarketingFeaturesRoute: typeof MarketingFeaturesRoute
   MarketingGetStartedRoute: typeof MarketingGetStartedRoute
   MarketingPrivacyRoute: typeof MarketingPrivacyRoute
+  MarketingPrivacyPolicyRoute: typeof MarketingPrivacyPolicyRoute
   MarketingTermsRoute: typeof MarketingTermsRoute
   MarketingIndexRoute: typeof MarketingIndexRoute
 }
@@ -715,6 +735,7 @@ const MarketingRouteChildren: MarketingRouteChildren = {
   MarketingFeaturesRoute: MarketingFeaturesRoute,
   MarketingGetStartedRoute: MarketingGetStartedRoute,
   MarketingPrivacyRoute: MarketingPrivacyRoute,
+  MarketingPrivacyPolicyRoute: MarketingPrivacyPolicyRoute,
   MarketingTermsRoute: MarketingTermsRoute,
   MarketingIndexRoute: MarketingIndexRoute,
 }

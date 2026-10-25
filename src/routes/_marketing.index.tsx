@@ -1,15 +1,13 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Container, Section, CTALink, Eyebrow } from "@/components/marketing/primitives";
-import { DeviceScreen } from "@/components/marketing/DeviceFrame";
+import { createFileRoute } from "@tanstack/react-router";
+import { Hero } from "@/components/Hero";
 import { WhatIsPhoneX } from "@/components/marketing/WhatIsPhoneX";
+import { ProductShowcase } from "@/components/marketing/ProductShowcase";
 import { DayWithPhoneX } from "@/components/marketing/DayWithPhoneX";
-import { PhonexInAction } from "@/components/marketing/PhonexInAction";
-import { FeatureStories } from "@/components/marketing/FeatureStories";
-import { WhyPhoneX } from "@/components/marketing/WhyPhoneX";
-import { PrivacyTrust } from "@/components/marketing/PrivacyTrust";
-import { FinalCTA } from "@/components/marketing/FinalCTA";
-import { Sparkles, Brain, BarChart3 } from "lucide-react";
-
+import { SeeInAction } from "@/components/marketing/SeeInAction";
+import { Comparison } from "@/components/Comparison";
+import { Capabilities } from "@/components/Capabilities";
+import { Privacy } from "@/components/Privacy";
+import { FinalCTA } from "@/components/FinalCTA";
 
 export const Route = createFileRoute("/_marketing/")({
   head: () => ({
@@ -37,100 +35,32 @@ export const Route = createFileRoute("/_marketing/")({
 function MarketingHome() {
   return (
     <>
-    <Section size="hero" className="overflow-hidden">
+      {/* PROMPT 2: Editorial Asymmetric Hero Section */}
+      <Hero />
 
-      <Container
-        width="wide"
-        className="grid items-center gap-14 lg:grid-cols-[minmax(0,50fr)_minmax(0,50fr)] lg:gap-12"
-      >
-        {/* Left: message */}
-        <div className="mkt-reveal max-w-[560px]">
-          <Eyebrow>
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <span className="tracking-[0.14em] uppercase text-[11px]">Meet PhoneX</span>
-          </Eyebrow>
+      {/* PROMPT 3: What is PhoneX */}
+      <WhatIsPhoneX />
 
-          <h1 className="mkt-h1 mt-6 text-balance">
-            Your everyday life,
-            <br className="hidden sm:block" /> made easier by AI.
-          </h1>
+      {/* PROMPT 4: Interactive Product Showcase */}
+      <ProductShowcase />
 
-          <p className="mkt-lead mt-5 max-w-[480px]">
-            PhoneX is your personal AI companion that helps you organize your day, remember
-            what matters, stay on track, and understand your life better.
-          </p>
+      {/* PROMPT 5: A Day with PhoneX */}
+      <DayWithPhoneX />
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <CTALink to="/get-started" size="lg">
-              Get PhoneX
-            </CTALink>
-            <Link
-              to="/features"
-              hash="how-it-works"
-              className="inline-flex h-13 items-center justify-center rounded-xl border border-border bg-card px-7 text-[15px] font-semibold text-foreground transition-all duration-200 hover:border-foreground/25 hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              See how it works
-            </Link>
-          </div>
+      {/* PROMPT 6: See PhoneX in Action */}
+      <SeeInAction />
 
-          <p className="mkt-body mt-6 text-[13px]">
-            Private by design. Your day, your memories, your data.
-          </p>
-        </div>
+      {/* PROMPT 7: Comparison (Why PhoneX) */}
+      <Comparison />
 
-        {/* Right: real PhoneX app inside a device */}
-        <div className="mkt-reveal mkt-reveal-2 flex justify-center lg:justify-end">
-          <div className="relative w-full max-w-[288px] sm:max-w-[300px]">
-            <div className="mkt-hero-aura pointer-events-none absolute inset-[-28%] -z-10 rounded-full blur-3xl" />
+      {/* PROMPT 8: Capabilities (Asymmetric 7-5-5-7 Grid) */}
+      <Capabilities />
 
-            <DeviceScreen screen="home" height={844} glow={false} preview="hero-readable" />
+      {/* PROMPT 9: Privacy & Trust */}
+      <Privacy />
 
-            <HeroCallout
-              className="top-[14%] -left-6 mkt-reveal mkt-reveal-2 hidden md:flex lg:-left-[210px]"
-              icon={<Brain className="h-3.5 w-3.5 text-primary" />}
-              label="Plan your day"
-            />
-            <HeroCallout
-              className="top-[45%] -right-6 mkt-reveal mkt-reveal-3 hidden md:flex lg:-left-[230px] lg:right-auto"
-              icon={<Sparkles className="h-3.5 w-3.5 text-primary" />}
-              label="Remember what matters"
-            />
-            <HeroCallout
-              className="bottom-[16%] -left-4 mkt-reveal mkt-reveal-3 hidden lg:flex lg:-left-[195px]"
-              icon={<BarChart3 className="h-3.5 w-3.5 text-primary" />}
-              label="Understand your life"
-            />
-          </div>
-        </div>
-
-      </Container>
-    </Section>
-    <WhatIsPhoneX />
-    <DayWithPhoneX />
-    <PhonexInAction />
-    <FeatureStories />
-    <WhyPhoneX />
-    <PrivacyTrust />
-    <FinalCTA />
+      {/* PROMPT 10: Final CTA */}
+      <FinalCTA />
     </>
-  );
-}
-
-function HeroCallout({
-  className,
-  icon,
-  label,
-}: {
-  className?: string;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <div
-      className={`absolute z-10 items-center gap-2 rounded-full border border-border/70 bg-card/85 px-3.5 py-2 text-[13px] font-medium text-foreground/80 shadow-soft backdrop-blur-md ${className ?? ""}`}
-    >
-      {icon}
-      {label}
-    </div>
   );
 }

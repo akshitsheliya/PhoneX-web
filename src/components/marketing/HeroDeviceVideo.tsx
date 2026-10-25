@@ -11,7 +11,7 @@ interface HeroDeviceVideoProps {
 export function HeroDeviceVideo({ className, glow = true }: HeroDeviceVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -25,12 +25,6 @@ export function HeroDeviceVideo({ className, glow = true }: HeroDeviceVideoProps
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
     video.addEventListener("loadeddata", handleLoadedData);
-
-    // Attempt autoplay
-    video.play().catch(() => {
-      // Autoplay with sound might fail; muted is guaranteed
-      setIsPlaying(false);
-    });
 
     return () => {
       video.removeEventListener("play", handlePlay);
@@ -81,11 +75,10 @@ export function HeroDeviceVideo({ className, glow = true }: HeroDeviceVideoProps
           <video
             ref={videoRef}
             src={heroVideo}
-            autoPlay
             loop
             muted={isMuted}
             playsInline
-            preload="auto"
+            preload="none"
             className={cn(
               "h-full w-full object-cover transition-opacity duration-500",
               isLoaded ? "opacity-100" : "opacity-90"
