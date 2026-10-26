@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Brain, CheckCircle, Mic, Sparkles, Clock, Check, Calendar } from "lucide-react";
-import { PhoneMockup } from "./PhoneMockup";
+import PhoneFrame from "./PhoneFrame";
 
 const tabs = [
   {
@@ -92,11 +92,8 @@ export function ProductShowcase() {
 
           {/* Right: Phone Preview (col-span-12 lg:col-span-7) */}
           <div className="col-span-12 lg:col-span-7 relative flex justify-center items-center">
-            {/* Soft ambient background glow */}
-            <div className="absolute w-[320px] h-[320px] bg-accent/15 blur-[80px] rounded-full pointer-events-none" />
-
-            <div className="relative">
-              <PhoneMockup className="w-[260px]">
+            <PhoneFrame className="max-w-[280px] md:max-w-[300px]">
+              <div className="w-full h-full pt-11 px-4 pb-4 flex flex-col">
                 <AnimatePresence mode="wait">
                   {/* Tab 0: Personal Memories */}
                   {active === 0 && (
@@ -283,8 +280,8 @@ export function ProductShowcase() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </PhoneMockup>
-            </div>
+              </div>
+            </PhoneFrame>
           </div>
         </div>
       </div>

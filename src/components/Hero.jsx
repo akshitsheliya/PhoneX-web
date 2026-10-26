@@ -167,67 +167,62 @@ export function Hero() {
                         transition={{ duration: 0.35, ease: "easeInOut" }}
                         className="absolute inset-0 w-full h-full bg-[#FAFAF7] flex flex-col"
                       >
-                        {/* --- STATE 0: DASHBOARD --- */}
+                        {/* --- STATE 0: DASHBOARD (COMPACT) --- */}
                         {activeUI === 0 && (
-                          <div className="flex-1 p-3.5 pt-11 pb-16 flex flex-col justify-between overflow-hidden">
-                            <div>
-                              {/* Header */}
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center font-medium text-xs shrink-0 shadow-sm">
-                                  A
+                          <div className="flex-1 p-3.5 pt-11 flex flex-col gap-3 overflow-hidden">
+                            {/* Header - Compact */}
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center font-medium text-[10px]">
+                                A
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-[11px] font-semibold text-ink-primary leading-tight truncate">
+                                  Akshit
+                                </p>
+                                <p className="text-[8px] text-ink-muted">Your AI Companion</p>
+                              </div>
+                              <div className="w-6 h-6 rounded-full bg-white border border-border-subtle flex items-center justify-center shadow-soft flex-shrink-0">
+                                <Sparkles size={10} className="text-accent" />
+                              </div>
+                            </div>
+
+                            {/* Main Action Banner - Compact */}
+                            <div className="bg-gradient-to-br from-accent/20 via-[#E5E9FF] to-[#FFEBE5] p-3 rounded-xl border border-white/50">
+                              <p className="text-[12px] font-serif text-ink-primary mb-2 leading-tight">
+                                How can I help you?
+                              </p>
+                              <div className="grid grid-cols-2 gap-1.5">
+                                <div className="bg-white/70 backdrop-blur-sm p-1.5 rounded-lg flex gap-1 items-center text-[8px] font-medium text-ink-primary">
+                                  <Calendar size={9} /> Plan my day
                                 </div>
-                                <div>
-                                  <p className="text-[11px] font-semibold text-ink-primary leading-tight">
-                                    Akshit
+                                <div className="bg-white/70 backdrop-blur-sm p-1.5 rounded-lg flex gap-1 items-center text-[8px] font-medium text-ink-primary">
+                                  <Sparkles size={9} /> Remember
+                                </div>
+                                <div className="bg-white/70 backdrop-blur-sm p-1.5 rounded-lg flex gap-1 items-center text-[8px] font-medium text-ink-primary col-span-2">
+                                  <Activity size={9} /> Track health & focus
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Summary - Compact */}
+                            <div className="flex-1 min-h-0">
+                              <p className="text-[10px] font-semibold text-ink-primary mb-1.5">
+                                Today's summary
+                              </p>
+                              <div className="grid grid-cols-2 gap-1.5">
+                                <div className="bg-white p-2 rounded-xl shadow-soft border border-border-subtle">
+                                  <CheckSquare size={11} className="text-accent mb-1" />
+                                  <p className="text-[12px] font-bold text-ink-primary leading-tight">
+                                    8/10
                                   </p>
-                                  <p className="text-[8px] text-ink-muted">Your AI Companion</p>
+                                  <p className="text-[8px] text-ink-muted">Tasks done</p>
                                 </div>
-                                <div className="ml-auto w-6 h-6 rounded-full bg-white border border-border-subtle flex items-center justify-center shadow-soft">
-                                  <Sparkles size={11} className="text-accent" />
-                                </div>
-                              </div>
-
-                              {/* Main Action Banner */}
-                              <div className="bg-gradient-to-br from-accent/15 via-[#E5E9FF] to-[#FFEBE5] p-3 rounded-2xl border border-white/80 shadow-soft mb-3">
-                                <p className="text-[12px] font-serif text-ink-primary mb-2">
-                                  How can I help you?
-                                </p>
-                                <div className="grid grid-cols-2 gap-1.5">
-                                  <div className="bg-white/80 backdrop-blur-sm p-1.5 rounded-xl flex gap-1.5 items-center text-[9px] font-medium text-ink-primary shadow-xs">
-                                    <Calendar size={11} className="text-accent shrink-0" />
-                                    <span className="truncate">Plan my day</span>
-                                  </div>
-                                  <div className="bg-white/80 backdrop-blur-sm p-1.5 rounded-xl flex gap-1.5 items-center text-[9px] font-medium text-ink-primary shadow-xs">
-                                    <Sparkles size={11} className="text-accent-warm shrink-0" />
-                                    <span className="truncate">Remember...</span>
-                                  </div>
-                                  <div className="bg-white/80 backdrop-blur-sm p-1.5 rounded-xl flex gap-1.5 items-center text-[9px] font-medium text-ink-primary col-span-2 shadow-xs">
-                                    <Activity size={11} className="text-emerald-500 shrink-0" />
-                                    <span className="truncate">Track health & focus</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Summary Cards */}
-                              <div>
-                                <p className="text-[10px] font-semibold text-ink-primary mb-1.5">
-                                  Today's summary
-                                </p>
-                                <div className="flex gap-2">
-                                  <div className="flex-1 bg-white p-2.5 rounded-2xl shadow-soft border border-border-subtle">
-                                    <CheckSquare size={13} className="text-accent mb-1" />
-                                    <p className="text-[13px] font-bold text-ink-primary leading-tight">
-                                      8/10
-                                    </p>
-                                    <p className="text-[8px] text-ink-muted mt-0.5">Tasks done</p>
-                                  </div>
-                                  <div className="flex-1 bg-[#FFF5F3] p-2.5 rounded-2xl shadow-soft border border-border-subtle">
-                                    <Activity size={13} className="text-accent-warm mb-1" />
-                                    <p className="text-[13px] font-bold text-ink-primary leading-tight">
-                                      6.4 km
-                                    </p>
-                                    <p className="text-[8px] text-ink-muted mt-0.5">Walked today</p>
-                                  </div>
+                                <div className="bg-[#FFF5F3] p-2 rounded-xl shadow-soft border border-border-subtle">
+                                  <Activity size={11} className="text-accent-warm mb-1" />
+                                  <p className="text-[12px] font-bold text-ink-primary leading-tight">
+                                    6.4 km
+                                  </p>
+                                  <p className="text-[8px] text-ink-muted">Walked today</p>
                                 </div>
                               </div>
                             </div>
