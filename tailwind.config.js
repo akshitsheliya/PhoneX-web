@@ -1,42 +1,36 @@
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        bg: {
-          primary: '#FAFAF7',
-          secondary: '#F2F0EA',
-          card: '#FFFFFF',
-        },
-        ink: {
-          primary: '#1A1A1A',
-          secondary: '#5C5C5C',
-          muted: '#9B9B96',
-        },
-        border: {
-          subtle: '#E8E4DB',
-          default: '#D9D4C7',
-        },
-        accent: {
-          DEFAULT: '#5B4FE9',
-          soft: '#EEEBFF',
-          warm: '#FF6B4A',
-        },
+        // Apple's exact color system
+        'apple-bg': '#FFFFFF',          // Pure white
+        'apple-gray': '#F5F5F7',        // Card background (Apple's signature light gray)
+        'apple-gray-2': '#FBFBFD',      // Section background
+        'apple-text': '#1D1D1F',        // Primary text (not pure black)
+        'apple-text-2': '#86868B',      // Secondary text
+        'apple-blue': '#0071E3',        // Primary CTA blue
+        'apple-blue-hover': '#0077ED',  // Hover blue
+        'apple-border': '#D2D2D7',      // Subtle borders
+        'apple-dark': '#000000',        // Pure black cards (feature cards)
       },
       fontFamily: {
-        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        // Inter is closest free font to SF Pro Display
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display-xl': ['clamp(3rem, 7vw, 6.5rem)', { lineHeight: '0.95', letterSpacing: '-0.03em' }],
-        'display-lg': ['clamp(2.5rem, 5vw, 4.5rem)', { lineHeight: '1', letterSpacing: '-0.025em' }],
-        'display-md': ['clamp(2rem, 3.5vw, 3rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        // Apple's exact typography scale
+        'apple-hero': ['clamp(2.5rem, 5vw, 4rem)', { lineHeight: '1.05', letterSpacing: '-0.015em', fontWeight: '600' }],
+        'apple-headline': ['clamp(2rem, 3.5vw, 3rem)', { lineHeight: '1.1', letterSpacing: '-0.01em', fontWeight: '600' }],
+        'apple-title': ['clamp(1.5rem, 2.5vw, 2.25rem)', { lineHeight: '1.15', letterSpacing: '-0.005em', fontWeight: '600' }],
+        'apple-eyebrow': ['0.875rem', { lineHeight: '1.2', letterSpacing: '0', fontWeight: '400' }],
+        'apple-body': ['1.0625rem', { lineHeight: '1.47', letterSpacing: '-0.003em', fontWeight: '400' }],
+        'apple-caption': ['0.75rem', { lineHeight: '1.3', letterSpacing: '0', fontWeight: '400' }],
       },
-      boxShadow: {
-        'soft': '0 2px 20px -4px rgba(0, 0, 0, 0.06), 0 1px 3px -1px rgba(0, 0, 0, 0.04)',
-        'medium': '0 10px 40px -10px rgba(0, 0, 0, 0.1), 0 2px 10px -2px rgba(0, 0, 0, 0.05)',
-        'phone': '0 30px 80px -20px rgba(91, 79, 233, 0.25), 0 20px 40px -10px rgba(0, 0, 0, 0.1)',
+      borderRadius: {
+        'apple-card': '18px',   // Apple's exact card radius
+        'apple-btn': '980px',   // Pill buttons
+        'apple-lg': '28px',
       },
     },
   },

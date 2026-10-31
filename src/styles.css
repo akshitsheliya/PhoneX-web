@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -16,38 +16,85 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Light Theme Overhaul Colors */
-  --color-bg-primary: #FAFAF7;
-  --color-bg-secondary: #F2F0EA;
+  /* Apple's exact color system */
+  --color-apple-bg: #FFFFFF;
+  --color-apple-gray: #F5F5F7;
+  --color-apple-gray-2: #FBFBFD;
+  --color-apple-text: #1D1D1F;
+  --color-apple-text-2: #86868B;
+  --color-apple-blue: #0071E3;
+  --color-apple-blue-hover: #0077ED;
+  --color-apple-border: #D2D2D7;
+  --color-apple-dark: #000000;
+
+  /* Apple typography scale */
+  --text-apple-hero: clamp(2.5rem, 5vw, 4rem);
+  --text-apple-hero--line-height: 1.05;
+  --text-apple-hero--letter-spacing: -0.015em;
+  --text-apple-hero--font-weight: 600;
+
+  --text-apple-headline: clamp(2rem, 3.5vw, 3rem);
+  --text-apple-headline--line-height: 1.1;
+  --text-apple-headline--letter-spacing: -0.01em;
+  --text-apple-headline--font-weight: 600;
+
+  --text-apple-title: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-apple-title--line-height: 1.15;
+  --text-apple-title--letter-spacing: -0.005em;
+  --text-apple-title--font-weight: 600;
+
+  --text-apple-eyebrow: 0.875rem;
+  --text-apple-eyebrow--line-height: 1.2;
+  --text-apple-eyebrow--letter-spacing: 0;
+  --text-apple-eyebrow--font-weight: 400;
+
+  --text-apple-body: 1.0625rem;
+  --text-apple-body--line-height: 1.47;
+  --text-apple-body--letter-spacing: -0.003em;
+  --text-apple-body--font-weight: 400;
+
+  --text-apple-caption: 0.75rem;
+  --text-apple-caption--line-height: 1.3;
+  --text-apple-caption--letter-spacing: 0;
+  --text-apple-caption--font-weight: 400;
+
+  /* Apple border radius */
+  --radius-apple-card: 18px;
+  --radius-apple-btn: 980px;
+  --radius-apple-lg: 28px;
+
+  /* Neutralized Fallbacks */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F7;
   --color-bg-card: #FFFFFF;
 
-  --color-ink-primary: #1A1A1A;
-  --color-ink-secondary: #5C5C5C;
-  --color-ink-muted: #9B9B96;
+  --color-ink-primary: #1D1D1F;
+  --color-ink-secondary: #86868B;
+  --color-ink-muted: #86868B;
 
-  --color-border-subtle: #E8E4DB;
-  --color-border-default: #D9D4C7;
+  --color-border-subtle: #D2D2D7;
+  --color-border-default: #D2D2D7;
 
-  --color-accent: #5B4FE9;
-  --color-accent-soft: #EEEBFF;
-  --color-accent-warm: #FF6B4A;
+  --color-accent: #0071E3;
+  --color-accent-soft: #F5F5F7;
+  --color-accent-warm: #0071E3;
 
   /* Typography */
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --text-display-xl: clamp(3rem, 7vw, 6.5rem);
-  --text-display-xl--line-height: 0.95;
-  --text-display-xl--letter-spacing: -0.03em;
+  --text-display-xl: clamp(2.5rem, 5vw, 4rem);
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.015em;
 
-  --text-display-lg: clamp(2.5rem, 5vw, 4.5rem);
-  --text-display-lg--line-height: 1;
-  --text-display-lg--letter-spacing: -0.025em;
+  --text-display-lg: clamp(2rem, 3.5vw, 3rem);
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.01em;
 
-  --text-display-md: clamp(2rem, 3.5vw, 3rem);
-  --text-display-md--line-height: 1.05;
-  --text-display-md--letter-spacing: -0.02em;
+  --text-display-md: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-display-md--line-height: 1.15;
+  --text-display-md--letter-spacing: -0.005em;
 
   /* Box Shadows */
   --shadow-soft: 0 2px 20px -4px rgba(0, 0, 0, 0.06), 0 1px 3px -1px rgba(0, 0, 0, 0.04);
@@ -73,52 +120,52 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-heading: "Instrument Serif", Georgia, serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-mkt: "Inter", system-ui, sans-serif;
+  --font-heading: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-mkt: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 1.5rem;
+  --radius: 18px;
 
-  --background: #FAFAF7;
-  --foreground: #1A1A1A;
+  --background: #FFFFFF;
+  --foreground: #1D1D1F;
 
-  --card: #FFFFFF;
-  --card-foreground: #1A1A1A;
+  --card: #F5F5F7;
+  --card-foreground: #1D1D1F;
 
   --popover: #FFFFFF;
-  --popover-foreground: #1A1A1A;
+  --popover-foreground: #1D1D1F;
 
-  --primary: #1A1A1A;
-  --primary-foreground: #FAFAF7;
+  --primary: #0071E3;
+  --primary-foreground: #FFFFFF;
 
-  --secondary: #F2F0EA;
-  --secondary-foreground: #1A1A1A;
+  --secondary: #F5F5F7;
+  --secondary-foreground: #1D1D1F;
 
-  --muted: #F2F0EA;
-  --muted-foreground: #5C5C5C;
+  --muted: #F5F5F7;
+  --muted-foreground: #86868B;
 
-  --accent: #5B4FE9;
+  --accent: #0071E3;
   --accent-foreground: #FFFFFF;
 
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --border: #D9D4C7;
-  --input: #E8E4DB;
-  --ring: #5B4FE9;
+  --border: #D2D2D7;
+  --input: #D2D2D7;
+  --ring: #0071E3;
 
-  /* Editorial theme variables */
-  --bg-primary: #FAFAF7;
-  --bg-secondary: #F2F0EA;
+  /* Editorial theme variables normalized to Apple */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F5F7;
   --bg-card: #FFFFFF;
-  --ink-primary: #1A1A1A;
-  --ink-secondary: #5C5C5C;
-  --ink-muted: #9B9B96;
-  --border-subtle: #E8E4DB;
-  --border-default: #D9D4C7;
+  --ink-primary: #1D1D1F;
+  --ink-secondary: #86868B;
+  --ink-muted: #86868B;
+  --border-subtle: #D2D2D7;
+  --border-default: #D2D2D7;
 }
 
 html {
@@ -126,33 +173,39 @@ html {
 }
 
 body {
-  background: #FAFAF7;
-  color: #1A1A1A;
-  font-family: 'Inter', system-ui, sans-serif;
+  background: #FFFFFF;
+  color: #1D1D1F;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'ss01', 'cv11';
 }
 
-/* Subtle noise texture overlay for premium feel */
+/* Remove any noise textures or decorative background overlays */
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: multiply;
+  display: none !important;
+}
+
+/* Apple's signature link style */
+.apple-link {
+  color: #0071E3;
+  text-decoration: none;
+  font-size: 1.0625rem;
+}
+.apple-link:hover {
+  text-decoration: underline;
 }
 
 .serif-italic {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
+  font-style: normal;
+  font-weight: 600;
 }
 
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 .mono-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -160,17 +213,19 @@ body::before {
 
 /* Custom selection color */
 ::selection {
-  background: #5B4FE9;
+  background: #0071E3;
   color: #FFFFFF;
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   html, body {
-    background-color: #FAFAF7;
-    color: #1A1A1A;
+    background-color: #FFFFFF;
+    color: #1D1D1F;
   }
 }
 

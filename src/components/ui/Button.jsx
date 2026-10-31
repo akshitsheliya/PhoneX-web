@@ -1,20 +1,43 @@
-export const PrimaryButton = ({ children, ...props }) => (
-  <button
-    {...props}
-    className="group relative inline-flex items-center justify-center gap-2 bg-ink-primary text-bg-primary font-medium text-[15px] px-6 py-3.5 rounded-full hover:bg-accent transition-all duration-300 hover:shadow-medium cursor-pointer"
-  >
-    <span>{children}</span>
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="transition-transform group-hover:translate-x-0.5">
-      <path d="M1 7h12m0 0L7 1m6 6l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+export const AppleButton = ({ children, variant = 'primary', className = '', ...props }) => {
+  const base = "inline-flex items-center justify-center font-normal text-[17px] rounded-apple-btn transition-all duration-200 cursor-pointer";
+  
+  const variants = {
+    primary: "bg-apple-blue text-white px-6 py-3 hover:bg-apple-blue-hover",
+    secondary: "bg-apple-bg text-apple-blue border border-apple-blue px-6 py-3 hover:bg-apple-blue/5",
+    dark: "bg-apple-text text-white px-6 py-3 hover:bg-apple-text/90",
+  };
+  
+  return (
+    <button {...props} className={`${base} ${variants[variant] || variants.primary} ${className}`.trim()}>
+      {children}
+    </button>
+  );
+};
+
+// Apple's signature "Learn more >" link style
+export const AppleLink = ({ children, href = "#", className = "" }) => (
+  <a href={href} className={`apple-link inline-flex items-center gap-1 group ${className}`.trim()}>
+    {children} 
+    <span className="group-hover:translate-x-0.5 transition-transform">›</span>
+  </a>
+);
+
+// Blue pill button (small, like "Learn more" in product cards)
+export const AppleBluePill = ({ children, className = '', ...props }) => (
+  <button {...props} className={`bg-apple-blue hover:bg-apple-blue-hover text-white text-[14px] font-normal px-4 py-1.5 rounded-apple-btn transition-colors cursor-pointer ${className}`.trim()}>
+    {children}
   </button>
 );
 
-export const SecondaryButton = ({ children, ...props }) => (
-  <button
-    {...props}
-    className="inline-flex items-center justify-center gap-2 bg-transparent text-ink-primary font-medium text-[15px] px-6 py-3.5 rounded-full border border-border-default hover:border-ink-primary hover:bg-white transition-all duration-300 cursor-pointer"
-  >
+// Mapped aliases for backwards-compatibility with existing sections
+export const PrimaryButton = ({ children, className = '', ...props }) => (
+  <AppleButton variant="primary" className={className} {...props}>
     {children}
-  </button>
+  </AppleButton>
+);
+
+export const SecondaryButton = ({ children, className = '', ...props }) => (
+  <AppleButton variant="secondary" className={className} {...props}>
+    {children}
+  </AppleButton>
 );

@@ -11,6 +11,8 @@ import {
   DollarSign,
   BookOpen,
   MapPin,
+  MessageSquare,
+  X,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from '@tanstack/react-router';
@@ -430,61 +432,196 @@ export default function Features() {
               transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className="col-span-12 lg:col-span-6 flex justify-center"
             >
-              <PhoneFrame>
-                <div className="flex-1 bg-white p-3.5 pt-11 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between pb-3 border-b border-border-subtle mb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center">
-                          <Mic size={12} className="text-accent" />
-                        </div>
-                        <div>
-                          <p className="mono-label text-accent font-semibold leading-tight">VOICE ASSISTANT</p>
-                          <span className="text-[8px] text-emerald-500 font-medium">● Live</span>
-                        </div>
+              <div className="relative">
+                {/* FLOATING CHIPS - Positioned relative to phone frame */}
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute -top-3 -left-8 md:-left-12 bg-white/95 backdrop-blur-sm border border-border-subtle rounded-full px-3.5 py-1.5 shadow-soft flex items-center gap-2 text-xs font-medium text-ink-primary z-30 whitespace-nowrap"
+                >
+                  <Calendar size={12} className="text-accent shrink-0" />
+                  <span>Plan your day</span>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+                  className="absolute top-1/2 -right-4 md:-right-8 bg-white/95 backdrop-blur-sm border border-border-subtle rounded-full px-3.5 py-1.5 shadow-soft flex items-center gap-2 text-xs font-medium text-ink-primary z-30 whitespace-nowrap"
+                >
+                  <Sparkles size={12} className="text-accent-warm shrink-0" />
+                  <span>Remembers you</span>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.6 }}
+                  className="absolute bottom-8 -left-6 md:-left-10 bg-white/95 backdrop-blur-sm border border-border-subtle rounded-full px-3.5 py-1.5 shadow-soft flex items-center gap-2 text-xs font-medium text-ink-primary z-30 whitespace-nowrap"
+                >
+                  <Mic size={12} className="text-accent shrink-0 animate-pulse" />
+                  <span>Search with voice</span>
+                </motion.div>
+
+                <PhoneFrame>
+                  <div className="flex-1 p-3.5 pt-10 pb-3 flex flex-col justify-between bg-[#FAFAF7] overflow-hidden select-none">
+                    {/* Top Header */}
+                    <div className="flex items-center justify-between mb-1">
+                      <div
+                        className="w-7 h-7 rounded-full bg-white border border-border-subtle shadow-soft flex items-center justify-center text-ink-primary"
+                        aria-label="Back"
+                      >
+                        <ChevronLeft size={14} />
                       </div>
-                      <span className="text-[8px] bg-accent-soft text-accent px-2 py-0.5 rounded-full font-medium">Listening</span>
+                      <span className="text-[12px] font-semibold text-ink-primary tracking-tight">
+                        PhoneX
+                      </span>
+                      <div className="w-7 h-7" />
                     </div>
 
-                    {/* Waveform */}
-                    <div className="bg-[#FAF9F6] border border-border-subtle rounded-2xl p-4 flex flex-col items-center justify-center gap-3 mb-3">
-                      <div className="flex items-end justify-center gap-1 h-14">
-                        {[20, 35, 50, 30, 55, 40, 25, 45, 60, 35, 50, 30, 40].map((h, i) => (
-                          <div
-                            key={i}
-                            className="w-1 bg-accent rounded-full"
-                            style={{
-                              height: `${h}px`,
-                              animation: `pulse 1.5s ease-in-out ${i * 0.1}s infinite`,
-                            }}
-                          />
-                        ))}
+                    {/* Center Glowing Iridescent Orb & Constellation Ring */}
+                    <div className="relative my-auto flex items-center justify-center py-2">
+                      {/* Subtle multi-hue atmospheric glow */}
+                      <div className="absolute w-32 h-32 rounded-full bg-gradient-to-tr from-accent/25 via-[#7CE2FE]/30 to-[#FDBA74]/25 blur-2xl animate-pulse pointer-events-none" />
+
+                      {/* Constellation Particle Dots Ring */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="relative w-[136px] h-[136px] flex items-center justify-center">
+                          {[
+                            { angle: 0, color: '#8B5CF6', size: 3 },
+                            { angle: 30, color: '#38BDF8', size: 2.5 },
+                            { angle: 60, color: '#F43F5E', size: 3 },
+                            { angle: 90, color: '#A78BFA', size: 2 },
+                            { angle: 120, color: '#FBCFE8', size: 2.5 },
+                            { angle: 150, color: '#38BDF8', size: 3 },
+                            { angle: 180, color: '#8B5CF6', size: 2.5 },
+                            { angle: 210, color: '#F43F5E', size: 2 },
+                            { angle: 240, color: '#A78BFA', size: 3 },
+                            { angle: 270, color: '#38BDF8', size: 2.5 },
+                            { angle: 300, color: '#FBCFE8', size: 3 },
+                            { angle: 330, color: '#8B5CF6', size: 2 },
+                          ].map((dot, idx) => {
+                            const rad = (dot.angle * Math.PI) / 180;
+                            const r = 62;
+                            const x = Math.cos(rad) * r;
+                            const y = Math.sin(rad) * r;
+                            return (
+                              <motion.span
+                                key={idx}
+                                animate={{
+                                  scale: [1, 1.4, 1],
+                                  opacity: [0.5, 1, 0.5],
+                                }}
+                                transition={{
+                                  duration: 2.5,
+                                  repeat: Infinity,
+                                  delay: idx * 0.15,
+                                  ease: 'easeInOut',
+                                }}
+                                className="absolute rounded-full"
+                                style={{
+                                  transform: `translate(${x}px, ${y}px)`,
+                                  width: `${dot.size}px`,
+                                  height: `${dot.size}px`,
+                                  backgroundColor: dot.color,
+                                  boxShadow: `0 0 5px ${dot.color}`,
+                                }}
+                              />
+                            );
+                          })}
+                        </div>
                       </div>
-                      <p className="text-[11px] text-ink-primary italic text-center font-serif">
-                        "Remind Mark about Friday's presentation"
+
+                      {/* Holographic Glowing Orb */}
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.04, 1],
+                          boxShadow: [
+                            '0 12px 35px -8px rgba(91, 79, 233, 0.45), inset 0 2px 8px rgba(255, 255, 255, 0.7)',
+                            '0 16px 45px -5px rgba(124, 226, 254, 0.55), inset 0 2px 14px rgba(255, 255, 255, 0.9)',
+                            '0 12px 35px -8px rgba(91, 79, 233, 0.45), inset 0 2px 8px rgba(255, 255, 255, 0.7)',
+                          ],
+                        }}
+                        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                        className="relative w-28 h-28 rounded-full flex items-center justify-center overflow-hidden border border-white/70 shadow-lg"
+                        style={{
+                          background:
+                            'radial-gradient(circle at 35% 30%, #BAE6FD 0%, #DDD6FE 38%, #FBCFE8 70%, #FED7AA 100%)',
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-black/5 pointer-events-none" />
+                        <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center">
+                          <Mic className="w-6 h-6 text-white drop-shadow-md" strokeWidth={2.4} />
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    {/* "Listening..." Title & Dynamic Audio Waveform */}
+                    <div className="text-center my-1">
+                      <p className="text-[15px] font-bold text-ink-primary tracking-tight">
+                        Listening...
                       </p>
-                    </div>
+                      <p className="text-[9px] text-ink-muted mt-0.5">
+                        "What's on my schedule today?"
+                      </p>
 
-                    {/* Transcription / action card */}
-                    <div className="bg-accent-soft rounded-xl p-2.5 border border-accent/20">
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <CheckCircle2 size={12} className="text-accent" />
-                        <p className="text-[9px] text-accent font-semibold">✓ Done</p>
+                      {/* Equalizer Waveform bars */}
+                      <div className="flex items-center justify-center gap-[2.5px] h-6 mt-2">
+                        {[8, 14, 10, 20, 12, 22, 16, 24, 11, 20, 15, 22, 13, 19, 9, 21, 14, 18, 10, 16].map(
+                          (h, i) => (
+                            <motion.span
+                              key={i}
+                              animate={{
+                                height: [
+                                  `${Math.max(3, h * 0.3)}px`,
+                                  `${h}px`,
+                                  `${Math.max(3, h * 0.35)}px`,
+                                ],
+                              }}
+                              transition={{
+                                duration: 0.7 + (i % 4) * 0.12,
+                                repeat: Infinity,
+                                ease: 'easeInOut',
+                                delay: i * 0.04,
+                              }}
+                              className="w-[2px] rounded-full bg-gradient-to-t from-accent to-[#7CE2FE]"
+                            />
+                          )
+                        )}
                       </div>
-                      <p className="text-[10px] text-ink-primary font-medium">Reminder set for Thursday 6pm.</p>
-                      <p className="text-[8px] text-ink-muted mt-0.5">Notes saved to Work Project folder.</p>
                     </div>
-                  </div>
 
-                  {/* Bottom live voice status */}
-                  <div className="bg-bg-secondary/60 rounded-full py-2 px-3 flex items-center justify-between">
-                    <span className="text-[9px] text-ink-muted">Press to pause</span>
-                    <div className="w-5 h-5 rounded-full bg-accent flex items-center justify-center shadow-sm">
-                      <Mic size={10} className="text-white" />
+                    {/* Bottom Controls */}
+                    <div className="flex items-center justify-center gap-4 pt-2 pb-1">
+                      {/* Left Mic button */}
+                      <div
+                        className="w-9 h-9 rounded-full bg-white border border-border-subtle shadow-soft flex items-center justify-center text-ink-primary"
+                        aria-label="Microphone"
+                      >
+                        <Mic size={14} />
+                      </div>
+
+                      {/* Center Holographic Chat button */}
+                      <div
+                        className="w-11 h-11 rounded-full flex items-center justify-center text-white shadow-medium border border-white/80"
+                        style={{
+                          background:
+                            'radial-gradient(circle at 30% 30%, #7CE2FE 0%, #A78BFA 50%, #F472B6 100%)',
+                        }}
+                        aria-label="Chat"
+                      >
+                        <MessageSquare size={16} className="text-white drop-shadow-sm" />
+                      </div>
+
+                      {/* Right Close button */}
+                      <div
+                        className="w-9 h-9 rounded-full bg-white border border-border-subtle shadow-soft flex items-center justify-center text-ink-primary"
+                        aria-label="Close"
+                      >
+                        <X size={14} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </PhoneFrame>
+                </PhoneFrame>
+              </div>
             </motion.div>
           </motion.div>
         </div>

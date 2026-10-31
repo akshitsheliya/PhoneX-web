@@ -2,31 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
-  background: #FAFAF7;
-  color: #1A1A1A;
-  font-family: 'Inter', system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'ss01', 'cv11';
+  background: #FFFFFF;
+  color: #1D1D1F;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  font-weight: 400;
 }
 
-/* Subtle noise texture overlay for premium feel */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: multiply;
+/* Remove any noise textures or decorative background overlays */
+body::before { display: none !important; }
+
+/* Apple's signature link style */
+.apple-link {
+  color: #0071E3;
+  text-decoration: none;
+  font-size: 1.0625rem;
 }
+.apple-link:hover { text-decoration: underline; }
 
-.serif-italic { font-family: 'Instrument Serif', serif; font-style: italic; }
-.mono-label { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; }
+/* Selection color */
+::selection { background: #0071E3; color: #FFFFFF; }
 
-/* Custom selection color */
-::selection { background: #5B4FE9; color: #FFFFFF; }
+/* Remove serif-italic class if used elsewhere */
+.serif-italic { font-style: normal; font-weight: 600; }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }

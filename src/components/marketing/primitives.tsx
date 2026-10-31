@@ -14,10 +14,10 @@ export function Container({
 }) {
   const max = {
     narrow: "max-w-[880px]",
-    default: "max-w-[1200px]",
-    wide: "max-w-[1280px]",
+    default: "max-w-[1024px]",
+    wide: "max-w-[1024px]",
   }[width];
-  return <div className={cn("mx-auto w-full px-6 md:px-10", max, className)}>{children}</div>;
+  return <div className={cn("mx-auto w-full px-5 md:px-6", max, className)}>{children}</div>;
 }
 
 /** Vertical rhythm wrapper. `tone` paints an optional subtle background. */
@@ -40,9 +40,9 @@ export function Section({
     soft: "mkt-soft",
   }[tone];
   const sizeClass = {
-    compact: "py-16 md:py-20",
-    default: "py-16 md:py-20 lg:py-24",
-    hero: "py-16 md:py-20 lg:py-24",
+    compact: "py-12 md:py-16",
+    default: "py-16 md:py-24",
+    hero: "py-16 md:py-24",
   }[size];
   return (
     <section id={id} className={cn("relative", toneClass, sizeClass, className)}>

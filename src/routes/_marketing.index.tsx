@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/Hero";
-import { WhatIsPhoneX } from "@/components/marketing/WhatIsPhoneX";
-import { ProductShowcase } from "@/components/marketing/ProductShowcase";
-import { DayWithPhoneX } from "@/components/marketing/DayWithPhoneX";
-import { SeeInAction } from "@/components/marketing/SeeInAction";
-import { Comparison } from "@/components/Comparison";
-import { Capabilities } from "@/components/Capabilities";
+import { ExploreLineup } from "@/components/ExploreLineup";
+import { GetToKnow } from "@/components/GetToKnow";
+import { WhyPhoneX } from "@/components/WhyPhoneX";
+import { DayWithPhoneX } from "@/components/DayWithPhoneX";
+import { Essentials } from "@/components/Essentials";
 import { Privacy } from "@/components/Privacy";
 import { FinalCTA } from "@/components/FinalCTA";
 
@@ -34,33 +33,32 @@ export const Route = createFileRoute("/_marketing/")({
 
 function MarketingHome() {
   return (
-    <>
-      {/* PROMPT 2: Editorial Asymmetric Hero Section */}
+    <div className="bg-white text-apple-text">
+      {/* Apple-Style Hero */}
       <Hero />
 
-      {/* PROMPT 3: What is PhoneX */}
-      <WhatIsPhoneX />
+      {/* Explore the Line-up Cards */}
+      <ExploreLineup />
 
-      {/* PROMPT 4: Interactive Product Showcase */}
-      <ProductShowcase />
+      {/* Get to Know PhoneX Dark Feature Cards */}
+      <GetToKnow />
 
-      {/* PROMPT 5: A Day with PhoneX */}
+      {/* Why PhoneX Reasons Cards */}
+      <WhyPhoneX />
+
+      {/* A Day with PhoneX Accordion */}
       <DayWithPhoneX />
 
-      {/* PROMPT 6: See PhoneX in Action */}
-      <SeeInAction />
+      {/* PhoneX Essentials Two Large Cards */}
+      <Essentials />
 
-      {/* PROMPT 7: Comparison (Why PhoneX) */}
-      <Comparison />
-
-      {/* PROMPT 8: Capabilities (Asymmetric 7-5-5-7 Grid) */}
-      <Capabilities />
-
-      {/* PROMPT 9: Privacy & Trust */}
+      {/* Apple-Style Privacy Section */}
       <Privacy />
 
-      {/* PROMPT 10: Final CTA */}
+      {/* Apple-Style Final CTA */}
       <FinalCTA />
-    </>
+    </div>
   );
 }
+
+export default MarketingHome;

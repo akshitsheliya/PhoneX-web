@@ -1,161 +1,120 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { PrimaryButton } from "./ui/Button";
+import { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  const handleHashClick = (e, targetId) => {
-    setIsOpen(false);
-    if (window.location.pathname === "/") {
-      const el = document.getElementById(targetId);
-      if (el) {
-        e.preventDefault();
-        el.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", `#${targetId}`);
-      }
-    }
-  };
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 h-[72px] transition-all duration-300 backdrop-blur-xl ${
-          isScrolled
-            ? "bg-bg-primary/90 border-b border-border-subtle shadow-soft"
-            : "bg-bg-primary/70 border-b border-transparent"
-        }`}
+      <nav
+        className={`w-full z-50 transition-all duration-300 ${scrolled
+            ? 'bg-white/80 backdrop-blur-xl '
+            : 'bg-white/60 backdrop-blur'
+          }`}
       >
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12 h-full flex items-center justify-between">
-          {/* Left — Logo */}
-          <a href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-            <div className="w-8 h-8 rounded-lg bg-ink-primary flex items-center justify-center shadow-sm">
-              <span className="text-bg-primary font-serif text-lg leading-none">P</span>
-            </div>
-            <span className="text-ink-primary font-medium text-[17px] tracking-tight">
-              PhoneX
-            </span>
+        <div className="max-w-[1024px] mx-auto px-5 md:px-6 h-[44px] flex items-center justify-between">
+          {/* Logo - minimal, Apple style */}
+          <a href="/" className="text-apple-text text-[21px] font-medium tracking-tight">
+            PhoneX
           </a>
 
-          {/* Center — Nav Links (hidden on mobile) */}
-          <nav className="hidden md:flex items-center gap-10">
+          {/* Center nav links - small, light weight */}
+          <div className="hidden md:flex items-center gap-9">
             <a
               href="/features"
-              className="text-ink-secondary hover:text-ink-primary text-[14px] font-medium transition-colors duration-200"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
             >
               Features
             </a>
             <a
               href="/#showcase"
-              onClick={(e) => handleHashClick(e, "showcase")}
-              className="text-ink-secondary hover:text-ink-primary text-[14px] font-medium transition-colors duration-200"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
             >
               How it works
             </a>
             <a
               href="/#privacy"
-              onClick={(e) => handleHashClick(e, "privacy")}
-              className="text-ink-secondary hover:text-ink-primary text-[14px] font-medium transition-colors duration-200"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
             >
               Privacy
             </a>
-          </nav>
-
-          {/* Right — CTA & Mobile Hamburger */}
-          <div className="flex items-center gap-3">
-            <a href="/get-started" className="hidden sm:inline-flex">
-              <PrimaryButton className="!px-5 !py-2.5 !text-sm">
-                Get PhoneX
-              </PrimaryButton>
-            </a>
-
-            <button
-              type="button"
-              onClick={() => setIsOpen((prev) => !prev)}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isOpen}
-              className="inline-flex md:hidden p-2 rounded-lg text-ink-primary hover:text-accent transition-colors duration-200"
+            <a
+              href="/app"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              Open App
+            </a>
           </div>
-        </div>
-      </header>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-50 bg-bg-primary flex flex-col justify-between p-6 md:hidden"
+          {/* Right - Get Button (small blue pill) */}
+          <a
+            href="/get-started"
+            className="hidden md:inline-flex bg-apple-blue hover:bg-apple-blue-hover text-white text-[12px] font-normal px-3.5 py-1 rounded-apple-btn transition-colors"
           >
-            {/* Top Bar inside Overlay */}
-            <div className="flex items-center justify-between h-[72px]">
-              <a href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                <div className="w-8 h-8 rounded-lg bg-ink-primary flex items-center justify-center">
-                  <span className="text-bg-primary font-serif text-lg leading-none">P</span>
-                </div>
-                <span className="text-ink-primary font-medium text-[17px] tracking-tight">
-                  PhoneX
-                </span>
-              </a>
+            Get PhoneX
+          </a>
 
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            onClick={() => setMobileOpen(true)}
+            className="md:hidden text-apple-text p-1 cursor-pointer"
+            aria-label="Open mobile menu"
+          >
+            <Menu size={20} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-white"
+          >
+            <div className="flex justify-end p-5">
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close menu"
-                className="p-2 text-ink-primary hover:text-accent transition-colors"
+                onClick={() => setMobileOpen(false)}
+                className="text-apple-text p-1 cursor-pointer"
+                aria-label="Close mobile menu"
               >
-                <X className="w-6 h-6" />
+                <X size={24} />
               </button>
             </div>
-
-            {/* Large Centered Nav Links */}
-            <nav className="flex flex-col items-center justify-center gap-8 my-auto">
+            <div className="flex flex-col items-start px-8 gap-5 pt-10">
+              {[
+                { name: 'Features', href: '/features' },
+                { name: 'How it works', href: '/#showcase' },
+                { name: 'Privacy', href: '/#privacy' },
+                { name: 'Open App', href: '/app' },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-apple-text text-2xl font-medium"
+                >
+                  {item.name}
+                </a>
+              ))}
               <a
-                href="/features"
-                onClick={() => setIsOpen(false)}
-                className="text-3xl font-serif text-ink-primary hover:text-accent transition-colors"
+                href="/get-started"
+                onClick={() => setMobileOpen(false)}
+                className="bg-apple-blue text-white px-6 py-3 rounded-apple-btn mt-6 inline-block text-center"
               >
-                Features
-              </a>
-              <a
-                href="/#showcase"
-                onClick={(e) => handleHashClick(e, "showcase")}
-                className="text-3xl font-serif text-ink-primary hover:text-accent transition-colors"
-              >
-                How it works
-              </a>
-              <a
-                href="/#privacy"
-                onClick={(e) => handleHashClick(e, "privacy")}
-                className="text-3xl font-serif text-ink-primary hover:text-accent transition-colors"
-              >
-                Privacy
-              </a>
-            </nav>
-
-            {/* Mobile CTA */}
-            <div className="pt-6 pb-8 flex flex-col items-center gap-4">
-              <a href="/get-started" onClick={() => setIsOpen(false)} className="w-full max-w-xs text-center">
-                <PrimaryButton className="w-full py-3.5 text-base justify-center">
-                  Get PhoneX
-                </PrimaryButton>
+                Get PhoneX
               </a>
             </div>
           </motion.div>

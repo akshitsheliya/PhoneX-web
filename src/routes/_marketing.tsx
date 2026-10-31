@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_marketing")({
 
 function MarketingLayout() {
   return (
-    <div className="min-h-screen bg-bg-primary text-ink-primary font-sans selection:bg-accent selection:text-white">
+    <div className="min-h-screen bg-apple-bg text-apple-text font-sans selection:bg-apple-blue selection:text-white">
       <SiteHeader />
       <main className="w-full">
         <Outlet />
