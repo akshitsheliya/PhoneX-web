@@ -18,6 +18,16 @@ import { motion } from 'framer-motion';
 import { Link } from '@tanstack/react-router';
 import PhoneFrame from '../components/PhoneFrame';
 import { PrimaryButton } from '../components/ui/Button';
+import {
+  KnowledgeVaultVisual,
+  PhoneXActionsVisual,
+  FamilyAIVisual,
+  AICloneVisual,
+  BusinessBrainVisual,
+  LifeInsightsVisual,
+  EverywhereVisual,
+  DigitalLegacyVisual,
+} from '../components/visuals/FeatureVisuals';
 
 export default function Features() {
   return (
@@ -730,6 +740,138 @@ export default function Features() {
               </ul>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* SECTION G.2: Advanced Intelligence Architecture Grid */}
+      <section className="py-20 md:py-28 bg-[#0D0D10] text-white">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+          <div className="max-w-2xl mb-12">
+            <p className="text-[12px] font-mono uppercase tracking-widest text-apple-blue font-semibold mb-3">
+              Feature Architecture
+            </p>
+            <h2 className="text-display-md font-semibold text-white tracking-tight leading-[1.08]">
+              Engineered for privacy.<br />
+              Trained for everything else.
+            </h2>
+            <p className="mt-4 text-[15px] text-white/60 leading-relaxed">
+              Every system is built on on-device neural processing, keeping your data locked in your private vault while assisting across every screen.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+            {/* 1. Knowledge Vault */}
+            <div className="bg-gradient-to-b from-[#2A080C] to-[#120305] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-red-300/70 tracking-wider">Vault</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">Knowledge Vault</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Search across documents, media, and notes with semantic retrieval.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <KnowledgeVaultVisual />
+              </div>
+            </div>
+
+            {/* 2. Actions */}
+            <div className="bg-gradient-to-b from-[#0A0E2A] to-[#040614] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-sky-300/70 tracking-wider">Automation</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">PhoneX Actions</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Send messages, compose emails, and plan travel autonomously.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <PhoneXActionsVisual />
+              </div>
+            </div>
+
+            {/* 3. Family AI */}
+            <div className="bg-gradient-to-b from-[#1E0A24] to-[#0B030E] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-purple-300/70 tracking-wider">Circle</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">Family AI</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Shared generational memories and milestone reminders for loved ones.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <FamilyAIVisual />
+              </div>
+            </div>
+
+            {/* 4. AI Clone */}
+            <div className="bg-gradient-to-b from-[#120826] to-[#05020D] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-violet-300/70 tracking-wider">Neural</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">AI Clone</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Adapts tone, decision criteria, and preserves voice personality.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <AICloneVisual />
+              </div>
+            </div>
+
+            {/* 5. Business Brain */}
+            <div className="bg-gradient-to-b from-[#1C2026] to-[#0A0C0E] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-slate-300/70 tracking-wider">Enterprise</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">Business Brain</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Company documentation, meeting transcripts, and decision queries.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <BusinessBrainVisual />
+              </div>
+            </div>
+
+            {/* 6. Life Insights */}
+            <div className="bg-gradient-to-b from-[#06201B] to-[#020D0A] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-emerald-300/70 tracking-wider">Biometrics</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">Life Insights</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Quantified focus, sleep rhythms, and continuous habit consistency.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <LifeInsightsVisual />
+              </div>
+            </div>
+
+            {/* 7. Everywhere */}
+            <div className="bg-gradient-to-b from-[#222226] to-[#0D0D0E] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-cyan-300/70 tracking-wider">Ecosystem</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">Everywhere</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Real-time encrypted sync between phone, tablet, and desktop.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <EverywhereVisual />
+              </div>
+            </div>
+
+            {/* 8. Digital Legacy */}
+            <div className="bg-gradient-to-b from-[#24170A] to-[#0E0B04] rounded-apple-card p-5 flex flex-col justify-between border border-white/10 shadow-lg min-h-[360px]">
+              <div className="mb-4">
+                <p className="text-[11px] font-mono uppercase text-amber-300/70 tracking-wider">Archival</p>
+                <h3 className="text-[18px] font-semibold text-white mt-1">Digital Legacy</h3>
+                <p className="text-[12px] text-white/60 mt-1 leading-snug">
+                  Preserve your timeline, memories, and voice stories forever.
+                </p>
+              </div>
+              <div className="h-[210px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-3 shadow-xl overflow-hidden">
+                <DigitalLegacyVisual />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
