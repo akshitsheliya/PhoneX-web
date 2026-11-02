@@ -274,80 +274,87 @@ export function GetToKnow() {
         </h2>
       </div>
 
-      {/* Horizontal edge-to-edge scrollable track (taller card aspect-ratio: aspect-[3/5.2] min-h-[480px] md:min-h-[560px]) */}
-      <div
-        ref={sliderRef}
-        className="w-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory px-6 sm:px-10 md:px-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:px-[calc(max(3rem,(100vw-1280px)/2+5rem))] scroll-pl-6 sm:scroll-pl-10 md:scroll-pl-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:scroll-pl-[calc(max(3rem,(100vw-1280px)/2+5rem))] gap-4 md:gap-6 pt-4 pb-6"
-      >
-        {cards.map((card) => {
-          const Visual = card.VisualComponent;
-          return (
-            <div
-              key={card.id}
-              data-slider-card
-              onClick={() => setActiveModalCard(card)}
-              className={`relative w-[280px] sm:w-[320px] md:w-[360px] aspect-[3/5.2] min-h-[480px] md:min-h-[560px] shrink-0 snap-start ${card.bg} rounded-apple-card p-6 md:p-8 flex flex-col justify-between overflow-hidden group cursor-pointer shadow-md border border-white/10 transition-all duration-500 ease-out hover:scale-[1.015] hover:-translate-y-1 hover:shadow-2xl`}
-            >
-              {/* Top: Eyebrow + Title */}
-              <div className="relative z-10">
-                <p className={`text-[13px] md:text-[14px] font-normal ${card.textColor} opacity-75 mb-2 tracking-normal`}>
-                  {card.eyebrow}
-                </p>
-                <h3
-                  className={`text-[26px] md:text-[30px] font-semibold ${card.textColor} leading-[1.1] whitespace-pre-line tracking-tight`}
-                >
-                  {card.title}
-                </h3>
-              </div>
-
-              {/* Bottom: Native Micro-UI Component (pinned to bottom with vertical breathing room) */}
-              <div className="relative z-10 w-full mt-auto pt-8 flex items-end justify-center">
-                <div className="w-full h-[220px] sm:h-[240px] md:h-[250px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col justify-between overflow-hidden">
-                  <Visual />
-                </div>
-              </div>
-
-              {/* Plus icon (Apple signature) */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveModalCard(card);
-                }}
-                className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white/95 hover:bg-white flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer group-hover:scale-110 group-hover:bg-white z-20"
-                aria-label={`Open details for ${card.eyebrow}`}
-              >
-                <Plus size={16} className="text-apple-text" strokeWidth={2.5} />
-              </button>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Slider Navigation Arrows (Apple style - right aligned below slider) */}
-      <div className="mt-6 hidden md:flex justify-end gap-2 max-w-[1280px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
+      {/* Horizontal edge-to-edge scrollable track container with left/right arrows */}
+      <div className="relative w-full group/slider">
+        {/* Left Arrow Button */}
         <button
           type="button"
           onClick={() => handleScroll('left')}
           disabled={!canScrollLeft}
-          className={`w-10 h-10 rounded-full bg-[#E8E8ED] text-black flex items-center justify-center transition-all ${
-            canScrollLeft ? 'hover:bg-[#D8D8DD] cursor-pointer active:scale-95' : 'opacity-40 cursor-not-allowed'
+          className={`absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-apple-text shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-md border border-black/5 items-center justify-center transition-all duration-300 ${
+            canScrollLeft
+              ? 'opacity-90 hover:opacity-100 hover:scale-105 cursor-pointer active:scale-95 flex'
+              : 'opacity-0 pointer-events-none hidden'
           }`}
-          aria-label="Scroll left"
+          aria-label="Previous slide"
         >
-          <ChevronLeft size={18} strokeWidth={2.2} />
+          <ChevronLeft size={22} strokeWidth={2.2} />
         </button>
+
+        {/* Right Arrow Button */}
         <button
           type="button"
           onClick={() => handleScroll('right')}
           disabled={!canScrollRight}
-          className={`w-10 h-10 rounded-full bg-[#E8E8ED] text-black flex items-center justify-center transition-all ${
-            canScrollRight ? 'hover:bg-[#D8D8DD] cursor-pointer active:scale-95' : 'opacity-40 cursor-not-allowed'
+          className={`absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-apple-text shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-md border border-black/5 items-center justify-center transition-all duration-300 ${
+            canScrollRight
+              ? 'opacity-90 hover:opacity-100 hover:scale-105 cursor-pointer active:scale-95 flex'
+              : 'opacity-0 pointer-events-none hidden'
           }`}
-          aria-label="Scroll right"
+          aria-label="Next slide"
         >
-          <ChevronRight size={18} strokeWidth={2.2} />
+          <ChevronRight size={22} strokeWidth={2.2} />
         </button>
+
+        {/* Scroll Track */}
+        <div
+          ref={sliderRef}
+          className="w-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory px-6 sm:px-10 md:px-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:px-[calc(max(3rem,(100vw-1280px)/2+5rem))] scroll-pl-6 sm:scroll-pl-10 md:scroll-pl-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:scroll-pl-[calc(max(3rem,(100vw-1280px)/2+5rem))] gap-4 md:gap-6 pt-4 pb-6"
+        >
+          {cards.map((card) => {
+            const Visual = card.VisualComponent;
+            return (
+              <div
+                key={card.id}
+                data-slider-card
+                onClick={() => setActiveModalCard(card)}
+                className={`relative w-[280px] sm:w-[320px] md:w-[360px] aspect-[3/5.2] min-h-[480px] md:min-h-[560px] shrink-0 snap-start ${card.bg} rounded-apple-card p-6 md:p-8 flex flex-col justify-between overflow-hidden group cursor-pointer shadow-md border border-white/10 transition-all duration-500 ease-out hover:scale-[1.015] hover:-translate-y-1 hover:shadow-2xl`}
+              >
+                {/* Top: Eyebrow + Title */}
+                <div className="relative z-10">
+                  <p className={`text-[13px] md:text-[14px] font-normal ${card.textColor} opacity-75 mb-2 tracking-normal`}>
+                    {card.eyebrow}
+                  </p>
+                  <h3
+                    className={`text-[26px] md:text-[30px] font-semibold ${card.textColor} leading-[1.1] whitespace-pre-line tracking-tight`}
+                  >
+                    {card.title}
+                  </h3>
+                </div>
+
+                {/* Bottom: Native Micro-UI Component (pinned to bottom with vertical breathing room) */}
+                <div className="relative z-10 w-full mt-auto pt-8 flex items-end justify-center">
+                  <div className="w-full h-[220px] sm:h-[240px] md:h-[250px] bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl flex flex-col justify-between overflow-hidden">
+                    <Visual />
+                  </div>
+                </div>
+
+                {/* Plus icon (Apple signature) */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveModalCard(card);
+                  }}
+                  className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white/95 hover:bg-white flex items-center justify-center shadow-md transition-all duration-300 cursor-pointer group-hover:scale-110 group-hover:bg-white z-20"
+                  aria-label={`Open details for ${card.eyebrow}`}
+                >
+                  <Plus size={16} className="text-apple-text" strokeWidth={2.5} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* ============================================================== */}

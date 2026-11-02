@@ -89,83 +89,90 @@ export function ExploreLineup() {
         <AppleLink href="/features">Compare all features</AppleLink>
       </div>
 
-      {/* Horizontal edge-to-edge scrollable track */}
-      <div
-        ref={sliderRef}
-        className="w-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory px-6 sm:px-10 md:px-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:px-[calc(max(3rem,(100vw-1280px)/2+5rem))] scroll-pl-6 sm:scroll-pl-10 md:scroll-pl-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:scroll-pl-[calc(max(3rem,(100vw-1280px)/2+5rem))] gap-4 md:gap-6 pt-4 pb-6"
-      >
-        {products.map((product, idx) => (
-          <div
-            key={idx}
-            data-slider-card
-            className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0 snap-start bg-white flex flex-col"
-          >
-            {/* Rich Micro-UI visual container with soft pastel background */}
-            <div
-              className={`aspect-square rounded-apple-card bg-gradient-to-br ${product.bgGradient} p-3.5 flex flex-col justify-between mb-5 relative overflow-hidden shadow-xs border border-white/60`}
-            >
-              {/* Micro-UI Component */}
-              <div className="w-full h-full relative">
-                <product.Visual />
-              </div>
-
-              {/* Pagination dots (3-dot indicator) */}
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20 pointer-events-none">
-                {[0, 1, 2].map((d) => (
-                  <div
-                    key={d}
-                    className={`w-1 h-1 rounded-full ${
-                      d === 0 ? 'bg-apple-text' : 'bg-apple-text/30'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* "New" badge */}
-            {product.badge && (
-              <p className="text-[13px] text-[#BF4800] font-normal mb-1 text-center">
-                {product.badge}
-              </p>
-            )}
-
-            {/* Title */}
-            <h3 className="text-[21px] font-semibold text-apple-text text-center mb-2">
-              {product.title}
-            </h3>
-
-            {/* Description */}
-            <p className="text-[14px] text-apple-text leading-[1.4] text-center px-2">
-              {product.description}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Slider Navigation Arrows (Apple style - right aligned below slider) */}
-      <div className="mt-6 hidden md:flex justify-end gap-2 max-w-[1280px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
+      {/* Horizontal edge-to-edge scrollable track container with left/right arrows */}
+      <div className="relative w-full group/slider">
+        {/* Left Arrow Button */}
         <button
           type="button"
           onClick={() => handleScroll('left')}
           disabled={!canScrollLeft}
-          className={`w-10 h-10 rounded-full bg-[#E8E8ED] text-black flex items-center justify-center transition-all ${
-            canScrollLeft ? 'hover:bg-[#D8D8DD] cursor-pointer active:scale-95' : 'opacity-40 cursor-not-allowed'
+          className={`absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-apple-text shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-md border border-black/5 items-center justify-center transition-all duration-300 ${
+            canScrollLeft
+              ? 'opacity-90 hover:opacity-100 hover:scale-105 cursor-pointer active:scale-95 flex'
+              : 'opacity-0 pointer-events-none hidden'
           }`}
-          aria-label="Scroll left"
+          aria-label="Previous slide"
         >
-          <ChevronLeft size={18} strokeWidth={2.2} />
+          <ChevronLeft size={22} strokeWidth={2.2} />
         </button>
+
+        {/* Right Arrow Button */}
         <button
           type="button"
           onClick={() => handleScroll('right')}
           disabled={!canScrollRight}
-          className={`w-10 h-10 rounded-full bg-[#E8E8ED] text-black flex items-center justify-center transition-all ${
-            canScrollRight ? 'hover:bg-[#D8D8DD] cursor-pointer active:scale-95' : 'opacity-40 cursor-not-allowed'
+          className={`absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-apple-text shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-md border border-black/5 items-center justify-center transition-all duration-300 ${
+            canScrollRight
+              ? 'opacity-90 hover:opacity-100 hover:scale-105 cursor-pointer active:scale-95 flex'
+              : 'opacity-0 pointer-events-none hidden'
           }`}
-          aria-label="Scroll right"
+          aria-label="Next slide"
         >
-          <ChevronRight size={18} strokeWidth={2.2} />
+          <ChevronRight size={22} strokeWidth={2.2} />
         </button>
+
+        {/* Scroll Track */}
+        <div
+          ref={sliderRef}
+          className="w-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory px-6 sm:px-10 md:px-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:px-[calc(max(3rem,(100vw-1280px)/2+5rem))] scroll-pl-6 sm:scroll-pl-10 md:scroll-pl-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:scroll-pl-[calc(max(3rem,(100vw-1280px)/2+5rem))] gap-4 md:gap-6 pt-4 pb-6"
+        >
+          {products.map((product, idx) => (
+            <div
+              key={idx}
+              data-slider-card
+              className="w-[280px] sm:w-[320px] md:w-[360px] shrink-0 snap-start bg-white flex flex-col"
+            >
+              {/* Rich Micro-UI visual container with soft pastel background */}
+              <div
+                className={`aspect-square rounded-apple-card bg-gradient-to-br ${product.bgGradient} p-3.5 flex flex-col justify-between mb-5 relative overflow-hidden shadow-xs border border-white/60`}
+              >
+                {/* Micro-UI Component */}
+                <div className="w-full h-full relative">
+                  <product.Visual />
+                </div>
+
+                {/* Pagination dots (3-dot indicator) */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20 pointer-events-none">
+                  {[0, 1, 2].map((d) => (
+                    <div
+                      key={d}
+                      className={`w-1 h-1 rounded-full ${
+                        d === 0 ? 'bg-apple-text' : 'bg-apple-text/30'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* "New" badge */}
+              {product.badge && (
+                <p className="text-[13px] text-[#BF4800] font-normal mb-1 text-center">
+                  {product.badge}
+                </p>
+              )}
+
+              {/* Title */}
+              <h3 className="text-[21px] font-semibold text-apple-text text-center mb-2">
+                {product.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-[14px] text-apple-text leading-[1.4] text-center px-2">
+                {product.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -91,65 +91,71 @@ export function WhyPhoneX() {
         <AppleLink href="/features">Learn more</AppleLink>
       </div>
 
-      {/* Horizontal edge-to-edge scrollable track */}
-      <div
-        ref={sliderRef}
-        className="w-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory px-6 sm:px-10 md:px-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:px-[calc(max(3rem,(100vw-1280px)/2+5rem))] scroll-pl-6 sm:scroll-pl-10 md:scroll-pl-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:scroll-pl-[calc(max(3rem,(100vw-1280px)/2+5rem))] gap-4 md:gap-6 pt-4 pb-6"
-      >
-        {reasons.map((reason, idx) => (
-          <motion.div
-            key={idx}
-            data-slider-card
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ scale: 1.02 }}
-            className="group relative w-[280px] sm:w-[320px] md:w-[360px] shrink-0 snap-start bg-apple-gray hover:bg-white rounded-apple-card p-6 md:p-8 flex flex-col aspect-[3/4.2] justify-between shadow-xs hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-apple-border/40 hover:ring-1 hover:ring-black/5 transition-all duration-500 ease-out cursor-pointer"
-          >
-            {/* Top Text content */}
-            <div>
-              <p className="text-[12px] text-apple-text-2 font-normal mb-2 tracking-normal">{reason.eyebrow}</p>
-              <h3 className="text-[22px] md:text-[24px] font-semibold text-apple-text leading-[1.2] mb-3 tracking-tight">
-                {reason.title}
-              </h3>
-              <p className="text-[14px] text-apple-text-2 leading-[1.4]">
-                {reason.description}
-              </p>
-            </div>
-
-            {/* Bottom 50%: Refined Micro-Visual Illustration with subtle hover interaction */}
-            <div className="mt-auto pt-4 flex flex-col items-center justify-center relative transition-transform duration-500 ease-out group-hover:scale-105">
-              <reason.Visual />
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Slider Navigation Arrows (Apple style - right aligned below slider) */}
-      <div className="mt-6 hidden md:flex justify-end gap-2 max-w-[1280px] mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
+      {/* Horizontal edge-to-edge scrollable track with left/right navigation arrows */}
+      <div className="relative w-full group/slider">
+        {/* Floating Left Arrow */}
         <button
           type="button"
           onClick={() => handleScroll('left')}
           disabled={!canScrollLeft}
-          className={`w-10 h-10 rounded-full bg-[#E8E8ED] text-black flex items-center justify-center transition-all ${
-            canScrollLeft ? 'hover:bg-[#D8D8DD] cursor-pointer active:scale-95' : 'opacity-40 cursor-not-allowed'
+          className={`absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-apple-text shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-md border border-black/5 items-center justify-center transition-all duration-300 ${
+            canScrollLeft
+              ? 'opacity-90 hover:opacity-100 hover:scale-105 cursor-pointer active:scale-95 flex'
+              : 'opacity-0 pointer-events-none hidden'
           }`}
-          aria-label="Scroll left"
+          aria-label="Previous slide"
         >
-          <ChevronLeft size={18} strokeWidth={2.2} />
+          <ChevronLeft size={22} strokeWidth={2.2} />
         </button>
+
+        {/* Floating Right Arrow */}
         <button
           type="button"
           onClick={() => handleScroll('right')}
           disabled={!canScrollRight}
-          className={`w-10 h-10 rounded-full bg-[#E8E8ED] text-black flex items-center justify-center transition-all ${
-            canScrollRight ? 'hover:bg-[#D8D8DD] cursor-pointer active:scale-95' : 'opacity-40 cursor-not-allowed'
+          className={`absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-apple-text shadow-[0_4px_20px_rgba(0,0,0,0.15)] backdrop-blur-md border border-black/5 items-center justify-center transition-all duration-300 ${
+            canScrollRight
+              ? 'opacity-90 hover:opacity-100 hover:scale-105 cursor-pointer active:scale-95 flex'
+              : 'opacity-0 pointer-events-none hidden'
           }`}
-          aria-label="Scroll right"
+          aria-label="Next slide"
         >
-          <ChevronRight size={18} strokeWidth={2.2} />
+          <ChevronRight size={22} strokeWidth={2.2} />
         </button>
+
+        <div
+          ref={sliderRef}
+          className="w-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory px-6 sm:px-10 md:px-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:px-[calc(max(3rem,(100vw-1280px)/2+5rem))] scroll-pl-6 sm:scroll-pl-10 md:scroll-pl-[calc(max(2.5rem,(100vw-1280px)/2+4rem))] lg:scroll-pl-[calc(max(3rem,(100vw-1280px)/2+5rem))] gap-4 md:gap-6 pt-4 pb-6"
+        >
+          {reasons.map((reason, idx) => (
+            <motion.div
+              key={idx}
+              data-slider-card
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.02 }}
+              className="group relative w-[280px] sm:w-[320px] md:w-[360px] shrink-0 snap-start bg-apple-gray hover:bg-white rounded-apple-card p-6 md:p-8 flex flex-col aspect-[3/4.2] justify-between shadow-xs hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-apple-border/40 hover:ring-1 hover:ring-black/5 transition-all duration-500 ease-out cursor-pointer"
+            >
+              {/* Top Text content */}
+              <div>
+                <p className="text-[12px] text-apple-text-2 font-normal mb-2 tracking-normal">{reason.eyebrow}</p>
+                <h3 className="text-[22px] md:text-[24px] font-semibold text-apple-text leading-[1.2] mb-3 tracking-tight">
+                  {reason.title}
+                </h3>
+                <p className="text-[14px] text-apple-text-2 leading-[1.4]">
+                  {reason.description}
+                </p>
+              </div>
+
+              {/* Bottom 50%: Refined Micro-Visual Illustration with subtle hover interaction */}
+              <div className="mt-auto pt-4 flex flex-col items-center justify-center relative transition-transform duration-500 ease-out group-hover:scale-105">
+                <reason.Visual />
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
