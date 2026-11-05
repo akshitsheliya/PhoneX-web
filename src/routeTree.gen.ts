@@ -36,6 +36,7 @@ import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as VaultRouteImport } from './routes/vault'
 import { Route as VoiceRouteImport } from './routes/voice'
 import { Route as MarketingIndexRouteImport } from './routes/_marketing.index'
+import { Route as MarketingDevelopersRouteImport } from './routes/_marketing.developers'
 import { Route as MarketingFeaturesRouteImport } from './routes/_marketing.features'
 import { Route as MarketingGetStartedRouteImport } from './routes/_marketing.get-started'
 import { Route as MarketingPrivacyRouteImport } from './routes/_marketing.privacy'
@@ -179,6 +180,11 @@ const MarketingIndexRoute = MarketingIndexRouteImport.update({
   path: '/',
   getParentRoute: () => MarketingRoute,
 } as any)
+const MarketingDevelopersRoute = MarketingDevelopersRouteImport.update({
+  id: '/developers',
+  path: '/developers',
+  getParentRoute: () => MarketingRoute,
+} as any)
 const MarketingFeaturesRoute = MarketingFeaturesRouteImport.update({
   id: '/features',
   path: '/features',
@@ -247,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/tasks': typeof TasksRoute
   '/vault': typeof VaultRoute
   '/voice': typeof VoiceRoute
+  '/developers': typeof MarketingDevelopersRoute
   '/features': typeof MarketingFeaturesRoute
   '/get-started': typeof MarketingGetStartedRoute
   '/privacy': typeof MarketingPrivacyRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/tasks': typeof TasksRoute
   '/vault': typeof VaultRoute
   '/voice': typeof VoiceRoute
+  '/developers': typeof MarketingDevelopersRoute
   '/features': typeof MarketingFeaturesRoute
   '/get-started': typeof MarketingGetStartedRoute
   '/privacy': typeof MarketingPrivacyRoute
@@ -320,6 +328,7 @@ export interface FileRoutesById {
   '/tasks': typeof TasksRoute
   '/vault': typeof VaultRoute
   '/voice': typeof VoiceRoute
+  '/_marketing/developers': typeof MarketingDevelopersRoute
   '/_marketing/features': typeof MarketingFeaturesRoute
   '/_marketing/get-started': typeof MarketingGetStartedRoute
   '/_marketing/privacy': typeof MarketingPrivacyRoute
@@ -359,6 +368,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/vault'
     | '/voice'
+    | '/developers'
     | '/features'
     | '/get-started'
     | '/privacy'
@@ -394,6 +404,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/vault'
     | '/voice'
+    | '/developers'
     | '/features'
     | '/get-started'
     | '/privacy'
@@ -431,6 +442,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/vault'
     | '/voice'
+    | '/_marketing/developers'
     | '/_marketing/features'
     | '/_marketing/get-started'
     | '/_marketing/privacy'
@@ -663,6 +675,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketingIndexRouteImport
       parentRoute: typeof MarketingRoute
     }
+    '/_marketing/developers': {
+      id: '/_marketing/developers'
+      path: '/developers'
+      fullPath: '/developers'
+      preLoaderRoute: typeof MarketingDevelopersRouteImport
+      parentRoute: typeof MarketingRoute
+    }
     '/_marketing/features': {
       id: '/_marketing/features'
       path: '/features'
@@ -723,6 +742,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface MarketingRouteChildren {
+  MarketingDevelopersRoute: typeof MarketingDevelopersRoute
   MarketingFeaturesRoute: typeof MarketingFeaturesRoute
   MarketingGetStartedRoute: typeof MarketingGetStartedRoute
   MarketingPrivacyRoute: typeof MarketingPrivacyRoute
@@ -732,6 +752,7 @@ interface MarketingRouteChildren {
 }
 
 const MarketingRouteChildren: MarketingRouteChildren = {
+  MarketingDevelopersRoute: MarketingDevelopersRoute,
   MarketingFeaturesRoute: MarketingFeaturesRoute,
   MarketingGetStartedRoute: MarketingGetStartedRoute,
   MarketingPrivacyRoute: MarketingPrivacyRoute,

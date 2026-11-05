@@ -27,7 +27,7 @@ export function Navbar() {
           </a>
 
           {/* Center nav links - small, light weight */}
-          <div className="hidden md:flex items-center gap-9">
+          <div className="hidden md:flex items-center gap-7 lg:gap-8">
             <a
               href="/features"
               className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
@@ -35,22 +35,34 @@ export function Navbar() {
               Features
             </a>
             <a
-              href="/#showcase"
-              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
-            >
-              How it works
-            </a>
-            <a
-              href="/#privacy"
+              href="/privacy"
               className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
             >
               Privacy
+            </a>
+            <a
+              href="/#showcase"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
+            >
+              How It Works
             </a>
             <a
               href="/app"
               className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
             >
               Open App
+            </a>
+            <a
+              href="/developers"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
+            >
+              Developers
+            </a>
+            <a
+              href="/subscription"
+              className="text-apple-text text-[12px] font-normal opacity-80 hover:opacity-100 transition-opacity"
+            >
+              Pricing
             </a>
           </div>
 
@@ -96,9 +108,11 @@ export function Navbar() {
             <div className="flex flex-col items-start px-8 gap-5 pt-10">
               {[
                 { name: 'Features', href: '/features' },
-                { name: 'How it works', href: '/#showcase' },
-                { name: 'Privacy', href: '/#privacy' },
+                { name: 'Privacy', href: '/privacy' },
+                { name: 'How It Works', href: '/#showcase' },
                 { name: 'Open App', href: '/app' },
+                { name: 'Developers', href: '/developers' },
+                { name: 'Pricing', href: '/subscription' },
               ].map((item) => (
                 <a
                   key={item.name}
